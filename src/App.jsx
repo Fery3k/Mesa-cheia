@@ -10,7 +10,7 @@ import RegistrationTabs from './components/RegistrationTabs';
 import Footer from './components/Footer';
 import EditorialMarquee from './components/EditorialMarquee';
 import CustomCursor from './components/CustomCursor';
-import { SIMULATED_ADDRESSES, PRODUCTS, SUPERMARKETS } from './mockData';
+import { SIMULATED_ADDRESSES, PRODUCTS, SUPERMARKETS, getProductDeliveryFee } from './mockData';
 import { Sparkles, Scale, Truck, ArrowRight, ArrowUpRight, CheckCircle2, ShieldCheck, Zap } from 'lucide-react';
 import { motion } from 'framer-motion';
 
@@ -111,7 +111,7 @@ export default function App() {
     0
   );
   const cumulativeDeliveryFee = cartItems.reduce(
-    (sum, item) => sum + (item.product.deliveryFee || 2.00) * item.quantity,
+    (sum, item) => sum + getProductDeliveryFee(item.product, item.store.id) * item.quantity,
     0
   );
   const cartTotal = cartSubtotal + cumulativeDeliveryFee;
@@ -275,7 +275,8 @@ export default function App() {
 
                   <tbody className="divide-y divide-[#E8E2D5]">
                     {PRODUCTS.map((product) => {
-                      const itemDeliveryFee = product.deliveryFee || 2.00;
+                      const fees = SUPERMARKETS.map((s) => getProductDeliveryFee(product, s.id));
+                      const minFee = Math.min(...fees);
                       let minP = Infinity;
                       Object.values(product.prices).forEach((p) => {
                         if (p < minP) minP = p;
@@ -291,7 +292,7 @@ export default function App() {
                                 <div className="text-[10px] text-stone-500 font-mono">{product.unit}</div>
                                 <div className="mt-1 inline-flex items-center gap-1 text-[10px] font-mono font-bold text-amber-800 bg-amber-50 px-2 py-0.5 rounded border border-amber-200">
                                   <Truck className="w-3 h-3 text-amber-600" />
-                                  <span>Frete: R$ {itemDeliveryFee.toFixed(2).replace('.', ',')} /un</span>
+                                  <span>Frete a partir de R$ {minFee.toFixed(2).replace('.', ',')}</span>
                                 </div>
                               </div>
                             </div>
@@ -299,6 +300,7 @@ export default function App() {
 
                           {SUPERMARKETS.map((store) => {
                             const price = product.prices[store.id];
+                            const storeDeliveryFee = getProductDeliveryFee(product, store.id);
                             const isLowest = price === minP;
 
                             return (
@@ -308,7 +310,7 @@ export default function App() {
                                     ? 'bg-emerald-50/80 border-emerald-300' 
                                     : 'bg-[#FAF8F5] border-[#E8E2D5]'
                                 }`}>
-                                  <div className="flex items-baseline justify-between mb-2">
+                                  <div className="flex items-baseline justify-between mb-1.5">
                                     <span className={`font-mono text-base font-extrabold ${isLowest ? 'text-emerald-800' : 'text-stone-900'}`}>
                                       R$ {price.toFixed(2).replace('.', ',')}
                                     </span>
@@ -317,6 +319,14 @@ export default function App() {
                                         Menor Preço
                                       </span>
                                     )}
+                                  </div>
+
+                                  <div className="flex items-center justify-between text-[10px] font-mono text-amber-800 bg-amber-50/80 px-2 py-0.5 rounded border border-amber-200/60 mb-2">
+                                    <span className="flex items-center gap-1">
+                                      <Truck className="w-3 h-3 text-amber-600" />
+                                      <span>Frete deste mercado:</span>
+                                    </span>
+                                    <span className="font-bold">R$ {storeDeliveryFee.toFixed(2).replace('.', ',')}</span>
                                   </div>
 
                                   <button

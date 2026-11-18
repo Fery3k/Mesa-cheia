@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { X, Trash2, Plus, Minus, ShoppingBag, Clock, ShieldCheck, ArrowRight, Truck, CreditCard, Sparkles, CheckCircle2, Calculator, Receipt } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import confetti from 'canvas-confetti';
+import { getProductDeliveryFee } from '../mockData';
 
 export default function CartDrawer({
   isOpen,
@@ -33,10 +34,10 @@ export default function CartDrawer({
     return sum + item.product.prices[item.store.id] * item.quantity;
   }, 0);
 
-  // REGRA DE NEGÓCIO CRÍTICA: CÁLCULO DE TAXA DE ENTREGA CUMULATIVA POR ITEM
-  // Sum of (product.deliveryFee * quantity) for all items in the cart
+  // REGRA DE NEGÓCIO CRÍTICA: CÁLCULO DE TAXA DE ENTREGA CUMULATIVA POR ITEM E POR MERCADO
+  // Sum of (getProductDeliveryFee(product, store.id) * quantity) for all items in the cart
   const cumulativeDeliveryFee = cartItems.reduce((sum, item) => {
-    const itemDeliveryFee = item.product.deliveryFee || 2.00;
+    const itemDeliveryFee = getProductDeliveryFee(item.product, item.store.id);
     return sum + (itemDeliveryFee * item.quantity);
   }, 0);
 
@@ -155,12 +156,12 @@ export default function CartDrawer({
 
                       <div className="space-y-1.5 bg-white/90 p-3 rounded-2xl border border-amber-200/60 text-[11px] font-mono">
                         {cartItems.map((item, idx) => {
-                          const fee = item.product.deliveryFee || 2.00;
+                          const fee = getProductDeliveryFee(item.product, item.store.id);
                           const totalItemFee = fee * item.quantity;
                           return (
                             <div key={idx} className="flex items-center justify-between text-stone-700">
                               <span className="truncate pr-2">
-                                {item.quantity}x {item.product.name.split('/')[0]} (R$ {fee.toFixed(2).replace('.', ',')}/un)
+                                {item.quantity}x {item.product.name.split('/')[0]} ({item.store.name} - R$ {fee.toFixed(2).replace('.', ',')}/un)
                               </span>
                               <span className="font-bold text-amber-700 shrink-0">
                                 + R$ {totalItemFee.toFixed(2).replace('.', ',')}
@@ -192,7 +193,7 @@ export default function CartDrawer({
                           <div className="space-y-3.5">
                             {items.map((item) => {
                               const itemPrice = item.product.prices[store.id];
-                              const itemDeliveryFee = item.product.deliveryFee || 2.00;
+                              const itemDeliveryFee = getProductDeliveryFee(item.product, store.id);
                               const itemTotalDeliveryFee = itemDeliveryFee * item.quantity;
 
                               return (
@@ -205,7 +206,7 @@ export default function CartDrawer({
                                         R$ {itemPrice.toFixed(2).replace('.', ',')} cada
                                       </div>
                                       <div className="text-[10px] text-amber-800 font-mono mt-0.5">
-                                        Frete Cumulativo ({item.quantity}x R$ {itemDeliveryFee.toFixed(2).replace('.', ',')}):{' '}
+                                        Frete Cumulativo ({item.quantity}x R$ {itemDeliveryFee.toFixed(2).replace('.', ',')} neste mercado):{' '}
                                         <strong className="text-amber-900 font-bold">R$ {itemTotalDeliveryFee.toFixed(2).replace('.', ',')}</strong>
                                       </div>
                                     </div>

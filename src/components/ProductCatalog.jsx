@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { ShoppingBag, TrendingDown, Sparkles, Scale, Plus, Truck, Filter, Check, ArrowRight } from 'lucide-react';
-import { PRODUCTS, SUPERMARKETS } from '../mockData';
+import { PRODUCTS, SUPERMARKETS, getProductDeliveryFee } from '../mockData';
 import { motion, AnimatePresence } from 'framer-motion';
 
 export default function ProductCatalog({
@@ -148,7 +148,9 @@ export default function ProductCatalog({
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {filteredProducts.map((product, pIndex) => {
             const { minPrice, store: cheapestStore } = getCheapestStoreInfo(product.prices);
-            const deliveryFee = product.deliveryFee || 2.00;
+            const fees = SUPERMARKETS.map((s) => getProductDeliveryFee(product, s.id));
+            const minDeliveryFee = Math.min(...fees);
+            const maxDeliveryFee = Math.max(...fees);
 
             return (
               <motion.div
@@ -169,10 +171,10 @@ export default function ProductCatalog({
                       {product.unit}
                     </span>
                     
-                    {/* REGRA CRÍTICA: TAXA DE FRETE INDIVIDUAL DESTACADA */}
+                    {/* REGRA CRÍTICA: TAXA DE FRETE INDIVIDUAL DESTACADA POR MERCADO */}
                     <span className="absolute bottom-3 right-3 bg-amber-600 text-white font-mono text-[10px] font-extrabold px-2.5 py-1 rounded-lg shadow-sm flex items-center gap-1.5 border border-amber-400/30">
                       <Truck className="w-3 h-3 text-amber-200" />
-                      <span>Frete: R$ {deliveryFee.toFixed(2).replace('.', ',')}</span>
+                      <span>Frete: R$ {minDeliveryFee.toFixed(2).replace('.', ',')} a {maxDeliveryFee.toFixed(2).replace('.', ',')}</span>
                     </span>
                   </div>
 
@@ -190,18 +192,19 @@ export default function ProductCatalog({
                   {/* Regra de Negócio Notice */}
                   <div className="flex items-center gap-1.5 text-[10px] text-amber-900 font-semibold bg-amber-50/80 p-2.5 rounded-xl border border-amber-200/60 mb-4">
                     <Truck className="w-3.5 h-3.5 shrink-0 text-amber-600" />
-                    <span>Taxa de entrega individual: <strong className="font-mono">R$ {deliveryFee.toFixed(2).replace('.', ',')}/un.</strong></span>
+                    <span>Frete individual deste item: <strong className="font-mono">R$ {minDeliveryFee.toFixed(2).replace('.', ',')} a R$ {maxDeliveryFee.toFixed(2).replace('.', ',')}/un</strong> (varia por mercado)</span>
                   </div>
 
                   {/* Price Matrix Comparison by Supermarket */}
                   <div className="bg-[#FAF8F5] p-3 rounded-2xl border border-[#E8E2D5]/80 space-y-1.5 mb-4">
                     <div className="flex items-center justify-between text-[9px] font-mono font-bold uppercase tracking-wider text-stone-400 pb-1.5 border-b border-[#E8E2D5]">
                       <span>Supermercado</span>
-                      <span>Preço Item</span>
+                      <span>Preço & Frete</span>
                     </div>
 
                     {SUPERMARKETS.map((store) => {
                       const price = product.prices[store.id];
+                      const storeFee = getProductDeliveryFee(product, store.id);
                       const isCheapestStore = store.id === cheapestStore.id;
                       const qty = getItemQuantityInCart(product.id, store.id);
                       const feedbackKey = `${product.id}-${store.id}`;
@@ -227,9 +230,14 @@ export default function ProductCatalog({
                           </div>
                           
                           <div className="flex items-center gap-2">
-                            <span className={`font-mono font-bold text-xs ${isCheapestStore ? 'text-emerald-800' : 'text-stone-900'}`}>
-                              R$ {price.toFixed(2).replace('.', ',')}
-                            </span>
+                            <div className="flex flex-col items-end leading-tight">
+                              <span className={`font-mono font-bold text-xs ${isCheapestStore ? 'text-emerald-800' : 'text-stone-900'}`}>
+                                R$ {price.toFixed(2).replace('.', ',')}
+                              </span>
+                              <span className="text-[9px] font-mono text-amber-700">
+                                frete: R$ {storeFee.toFixed(2).replace('.', ',')}
+                              </span>
+                            </div>
                             <motion.button
                               whileTap={{ scale: 0.85 }}
                               onClick={() => handleAddWithFeedback(product, store)}
