@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
-import { User, Store, Bike, CheckCircle2, ArrowRight, ShieldCheck, Sparkles, Building2, MapPin, Mail, Phone } from 'lucide-react';
+import { User, Store, Bike, CheckCircle2, ArrowRight, ShieldCheck, Sparkles, Building2, MapPin, Mail, Phone, FileText } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import confetti from 'canvas-confetti';
 
 export default function RegistrationTabs() {
   const [activePortal, setActivePortal] = useState('user');
@@ -12,314 +14,347 @@ export default function RegistrationTabs() {
   // Driver form state
   const [driverForm, setDriverForm] = useState({ name: 'João Pedro Oliveira', cpf: '123.456.789-00', vehicle: 'moto', city: 'São Paulo', cnh: '98765432100' });
 
-
   const handleSubmit = (e, portalName) => {
     e.preventDefault();
+    try {
+      confetti({
+        particleCount: 70,
+        spread: 50,
+        origin: { y: 0.6 }
+      });
+    } catch (err) {}
+
     setSubmittedMessage(`Cadastro de ${portalName} enviado com sucesso! Nossa equipe entrará em contato.`);
     setTimeout(() => {
       setSubmittedMessage('');
-    }, 4000);
+    }, 4500);
   };
 
   return (
-    <section className="max-w-4xl mx-auto my-10">
+    <section className="max-w-4xl mx-auto my-12 px-4 sm:px-0">
       
       {/* Registration Portal Header */}
-      <div className="text-center mb-8">
-        <span className="bg-emerald-100 text-emerald-800 text-[11px] font-bold px-3 py-1 rounded-full uppercase tracking-wider inline-flex items-center gap-1.5 mb-2">
-          <Sparkles className="w-3.5 h-3.5" /> Faça parte da Ecossistema Mesa Cheia
+      <div className="text-center mb-10">
+        <span className="bg-emerald-950 text-emerald-300 font-mono text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-wider inline-flex items-center gap-1.5 mb-3 border border-emerald-800">
+          <Sparkles className="w-3.5 h-3.5 text-amber-300" /> Faça parte do Ecossistema Mesa Cheia
         </span>
-        <h2 className="text-3xl font-black text-gray-900 tracking-tight">
+        <h2 className="text-3xl sm:text-4xl font-display font-black text-stone-900 tracking-tight">
           Portais de Cadastro & Parcerias
         </h2>
-        <p className="text-xs text-gray-500 max-w-lg mx-auto mt-1">
+        <p className="text-xs sm:text-sm text-stone-500 max-w-lg mx-auto mt-2 leading-relaxed">
           Conectando Clientes que buscam economizar, Supermercados parceiros e Entregadores autônomos.
         </p>
       </div>
 
       {/* Tabs Navigation */}
-      <div className="flex items-center justify-center p-1.5 bg-gray-100 rounded-2xl max-w-xl mx-auto mb-8 border border-gray-200">
-        <button
-          onClick={() => setActivePortal('user')}
-          className={`flex-1 py-3 px-4 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-2 ${
-            activePortal === 'user'
-              ? 'bg-white text-emerald-800 shadow-sm border border-gray-100'
-              : 'text-gray-600 hover:text-gray-900'
-          }`}
-        >
-          <User className="w-4 h-4 text-emerald-600" />
-          <span>Sou Cliente</span>
-        </button>
-
-        <button
-          onClick={() => setActivePortal('supermarket')}
-          className={`flex-1 py-3 px-4 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-2 ${
-            activePortal === 'supermarket'
-              ? 'bg-white text-emerald-800 shadow-sm border border-gray-100'
-              : 'text-gray-600 hover:text-gray-900'
-          }`}
-        >
-          <Store className="w-4 h-4 text-blue-600" />
-          <span>Supermercado</span>
-        </button>
-
-        <button
-          onClick={() => setActivePortal('driver')}
-          className={`flex-1 py-3 px-4 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-2 ${
-            activePortal === 'driver'
-              ? 'bg-white text-emerald-800 shadow-sm border border-gray-100'
-              : 'text-gray-600 hover:text-gray-900'
-          }`}
-        >
-          <Bike className="w-4 h-4 text-orange-500" />
-          <span>Entregador</span>
-        </button>
+      <div className="flex items-center justify-center p-1.5 bg-[#F4EFEA] rounded-full max-w-xl mx-auto mb-10 border border-[#E8E2D5]">
+        {[
+          { id: 'user', label: 'Sou Cliente', icon: User },
+          { id: 'supermarket', label: 'Sou Supermercado', icon: Store },
+          { id: 'driver', label: 'Sou Entregador', icon: Bike },
+        ].map((tab) => {
+          const Icon = tab.icon;
+          const isActive = activePortal === tab.id;
+          return (
+            <button
+              key={tab.id}
+              onClick={() => setActivePortal(tab.id)}
+              data-cursor={tab.label}
+              className={`flex-1 py-3 px-4 rounded-full text-xs font-bold transition-all flex items-center justify-center gap-2 ${
+                isActive
+                  ? 'bg-stone-900 text-white shadow-sm'
+                  : 'text-stone-600 hover:text-stone-950 hover:bg-white/60'
+              }`}
+            >
+              <Icon className="w-4 h-4" />
+              <span>{tab.label}</span>
+            </button>
+          );
+        })}
       </div>
 
-      {/* Feedback Banner */}
-      {submittedMessage && (
-        <div className="mb-6 p-4 bg-emerald-600 text-white text-xs font-bold rounded-2xl flex items-center justify-between shadow-lg animate-fade-in">
-          <div className="flex items-center gap-2">
-            <CheckCircle2 className="w-5 h-5" />
+      {/* Success Banner */}
+      <AnimatePresence>
+        {submittedMessage && (
+          <motion.div
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            className="mb-8 p-4 bg-emerald-50 border border-emerald-300 rounded-2xl flex items-center gap-3 text-emerald-900 text-xs font-semibold shadow-sm"
+          >
+            <CheckCircle2 className="w-5 h-5 text-emerald-700 shrink-0" />
             <span>{submittedMessage}</span>
-          </div>
-          <button onClick={() => setSubmittedMessage('')} className="text-white/80 hover:text-white font-bold">
-            ×
-          </button>
-        </div>
-      )}
+          </motion.div>
+        )}
+      </AnimatePresence>
 
-      {/* Portal Forms Container */}
-      <div className="bg-white rounded-3xl p-8 border border-gray-100 shadow-xl">
-
-        {/* 1. USER REGISTRATION FORM */}
+      {/* Form Container */}
+      <div className="bg-white rounded-3xl p-6 sm:p-10 border border-[#E8E2D5] shadow-bento">
+        
+        {/* PORTAL 1: CLIENTE */}
         {activePortal === 'user' && (
-          <form onSubmit={(e) => handleSubmit(e, 'Cliente')} className="space-y-4">
-            <div className="flex items-center gap-3 pb-4 border-b border-gray-100">
-              <div className="p-3 bg-emerald-100 text-emerald-800 rounded-2xl">
-                <User className="w-6 h-6" />
-              </div>
-              <div>
-                <h3 className="font-extrabold text-base text-gray-900">Cadastro de Usuário / Cliente</h3>
-                <p className="text-xs text-gray-500">Crie sua conta para salvar comparativos e acompanhar pedidos.</p>
-              </div>
+          <form onSubmit={(e) => handleSubmit(e, 'Cliente')} className="space-y-6">
+            <div className="border-b border-[#E8E2D5] pb-5">
+              <h3 className="font-display font-bold text-xl text-stone-900">
+                Cadastro de Cliente
+              </h3>
+              <p className="text-xs text-stone-500 mt-1">
+                Crie sua conta para salvar endereços favoritos, acompanhar pedidos e receber ofertas exclusivas.
+              </p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
               <div>
-                <label className="block text-xs font-bold text-gray-700 mb-1">Nome Completo</label>
+                <label className="text-[10px] font-mono font-bold uppercase tracking-wider text-stone-500 block mb-1.5">
+                  Nome Completo
+                </label>
                 <input
                   type="text"
                   required
-                  placeholder="Ex: Maria Aparecida da Silva"
                   value={userForm.name}
                   onChange={(e) => setUserForm({ ...userForm, name: e.target.value })}
-                  className="w-full px-3.5 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-xs focus:ring-2 focus:ring-emerald-400 focus:outline-none"
+                  className="w-full px-4 py-2.5 bg-[#FAF8F5] border border-[#E8E2D5] rounded-xl text-xs text-stone-900 focus:bg-white focus:outline-none focus:ring-2 focus:ring-emerald-600"
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-bold text-gray-700 mb-1">E-mail</label>
+                <label className="text-[10px] font-mono font-bold uppercase tracking-wider text-stone-500 block mb-1.5">
+                  E-mail
+                </label>
                 <input
                   type="email"
                   required
-                  placeholder="maria@email.com"
                   value={userForm.email}
                   onChange={(e) => setUserForm({ ...userForm, email: e.target.value })}
-                  className="w-full px-3.5 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-xs focus:ring-2 focus:ring-emerald-400 focus:outline-none"
+                  className="w-full px-4 py-2.5 bg-[#FAF8F5] border border-[#E8E2D5] rounded-xl text-xs text-stone-900 focus:bg-white focus:outline-none focus:ring-2 focus:ring-emerald-600"
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-bold text-gray-700 mb-1">Telefone / WhatsApp</label>
+                <label className="text-[10px] font-mono font-bold uppercase tracking-wider text-stone-500 block mb-1.5">
+                  Celular / WhatsApp
+                </label>
                 <input
                   type="tel"
                   required
-                  placeholder="(11) 99999-8888"
                   value={userForm.phone}
                   onChange={(e) => setUserForm({ ...userForm, phone: e.target.value })}
-                  className="w-full px-3.5 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-xs focus:ring-2 focus:ring-emerald-400 focus:outline-none"
+                  className="w-full px-4 py-2.5 bg-[#FAF8F5] border border-[#E8E2D5] rounded-xl text-xs text-stone-900 focus:bg-white focus:outline-none focus:ring-2 focus:ring-emerald-600 font-mono"
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-bold text-gray-700 mb-1">Endereço Principal</label>
+                <label className="text-[10px] font-mono font-bold uppercase tracking-wider text-stone-500 block mb-1.5">
+                  Endereço de Entrega
+                </label>
                 <input
                   type="text"
                   required
-                  placeholder="Av. Paulista, 1000 - Apto 42"
                   value={userForm.address}
                   onChange={(e) => setUserForm({ ...userForm, address: e.target.value })}
-                  className="w-full px-3.5 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-xs focus:ring-2 focus:ring-emerald-400 focus:outline-none"
+                  className="w-full px-4 py-2.5 bg-[#FAF8F5] border border-[#E8E2D5] rounded-xl text-xs text-stone-900 focus:bg-white focus:outline-none focus:ring-2 focus:ring-emerald-600"
                 />
               </div>
             </div>
 
-            <button
-              type="submit"
-              className="w-full py-3.5 bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-xs rounded-xl shadow-md transition-all flex items-center justify-center gap-2 mt-4"
-            >
-              <span>Cadastrar como Cliente</span>
-              <ArrowRight className="w-4 h-4" />
-            </button>
+            <div className="pt-4 flex justify-end">
+              <button
+                type="submit"
+                data-cursor="Cadastrar"
+                className="py-3 px-8 bg-gradient-to-r from-[#064E3B] to-[#047857] hover:from-[#065F46] hover:to-[#059669] text-white text-xs font-bold rounded-2xl shadow-md transition-all flex items-center gap-2"
+              >
+                <span>Finalizar Cadastro de Cliente</span>
+                <ArrowRight className="w-4 h-4" />
+              </button>
+            </div>
           </form>
         )}
 
-        {/* 2. SUPERMARKET REGISTRATION FORM */}
+        {/* PORTAL 2: SUPERMERCADO */}
         {activePortal === 'supermarket' && (
-          <form onSubmit={(e) => handleSubmit(e, 'Supermercado Parceiro')} className="space-y-4">
-            <div className="flex items-center gap-3 pb-4 border-b border-gray-100">
-              <div className="p-3 bg-blue-100 text-blue-800 rounded-2xl">
-                <Store className="w-6 h-6" />
-              </div>
-              <div>
-                <h3 className="font-extrabold text-base text-gray-900">Cadastro de Supermercado Parceiro</h3>
-                <p className="text-xs text-gray-500">Cadastre sua rede e integre seu catálogo com o comparador Mesa Cheia.</p>
-              </div>
+          <form onSubmit={(e) => handleSubmit(e, 'Supermercado Parceiro')} className="space-y-6">
+            <div className="border-b border-[#E8E2D5] pb-5">
+              <h3 className="font-display font-bold text-xl text-stone-900">
+                Seja um Supermercado Parceiro
+              </h3>
+              <p className="text-xs text-stone-500 mt-1">
+                Conecte seu catálogo à plataforma e amplie suas vendas com entregas ultra-rápidas e cálculo transparente de frete.
+              </p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
               <div>
-                <label className="block text-xs font-bold text-gray-700 mb-1">Nome Fantasia do Supermercado</label>
+                <label className="text-[10px] font-mono font-bold uppercase tracking-wider text-stone-500 block mb-1.5">
+                  Nome Fantasia
+                </label>
                 <input
                   type="text"
                   required
-                  placeholder="Ex: Supermercado São José"
                   value={storeForm.storeName}
                   onChange={(e) => setStoreForm({ ...storeForm, storeName: e.target.value })}
-                  className="w-full px-3.5 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-xs focus:ring-2 focus:ring-blue-400 focus:outline-none"
+                  className="w-full px-4 py-2.5 bg-[#FAF8F5] border border-[#E8E2D5] rounded-xl text-xs text-stone-900 focus:bg-white focus:outline-none focus:ring-2 focus:ring-emerald-600"
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-bold text-gray-700 mb-1">CNPJ</label>
+                <label className="text-[10px] font-mono font-bold uppercase tracking-wider text-stone-500 block mb-1.5">
+                  CNPJ da Empresa
+                </label>
                 <input
                   type="text"
                   required
-                  placeholder="00.000.000/0001-00"
                   value={storeForm.cnpj}
                   onChange={(e) => setStoreForm({ ...storeForm, cnpj: e.target.value })}
-                  className="w-full px-3.5 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-xs focus:ring-2 focus:ring-blue-400 focus:outline-none"
+                  className="w-full px-4 py-2.5 bg-[#FAF8F5] border border-[#E8E2D5] rounded-xl text-xs text-stone-900 focus:bg-white focus:outline-none focus:ring-2 focus:ring-emerald-600 font-mono"
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-bold text-gray-700 mb-1">Nome do Gerente Comercial</label>
+                <label className="text-[10px] font-mono font-bold uppercase tracking-wider text-stone-500 block mb-1.5">
+                  Responsável / Gerente
+                </label>
                 <input
                   type="text"
                   required
-                  placeholder="Carlos Alberto"
                   value={storeForm.managerName}
                   onChange={(e) => setStoreForm({ ...storeForm, managerName: e.target.value })}
-                  className="w-full px-3.5 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-xs focus:ring-2 focus:ring-blue-400 focus:outline-none"
+                  className="w-full px-4 py-2.5 bg-[#FAF8F5] border border-[#E8E2D5] rounded-xl text-xs text-stone-900 focus:bg-white focus:outline-none focus:ring-2 focus:ring-emerald-600"
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-bold text-gray-700 mb-1">E-mail Corporativo</label>
+                <label className="text-[10px] font-mono font-bold uppercase tracking-wider text-stone-500 block mb-1.5">
+                  E-mail Corporativo
+                </label>
                 <input
                   type="email"
                   required
-                  placeholder="parceiro@supermercado.com.br"
                   value={storeForm.email}
                   onChange={(e) => setStoreForm({ ...storeForm, email: e.target.value })}
-                  className="w-full px-3.5 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-xs focus:ring-2 focus:ring-blue-400 focus:outline-none"
+                  className="w-full px-4 py-2.5 bg-[#FAF8F5] border border-[#E8E2D5] rounded-xl text-xs text-stone-900 focus:bg-white focus:outline-none focus:ring-2 focus:ring-emerald-600"
                 />
               </div>
 
-              <div className="md:col-span-2">
-                <label className="block text-xs font-bold text-gray-700 mb-1">Endereço Completo da Loja Física</label>
+              <div>
+                <label className="text-[10px] font-mono font-bold uppercase tracking-wider text-stone-500 block mb-1.5">
+                  Endereço do Estabelecimento
+                </label>
                 <input
                   type="text"
                   required
-                  placeholder="Rua Central, 500 - Bairro Centro"
                   value={storeForm.address}
                   onChange={(e) => setStoreForm({ ...storeForm, address: e.target.value })}
-                  className="w-full px-3.5 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-xs focus:ring-2 focus:ring-blue-400 focus:outline-none"
+                  className="w-full px-4 py-2.5 bg-[#FAF8F5] border border-[#E8E2D5] rounded-xl text-xs text-stone-900 focus:bg-white focus:outline-none focus:ring-2 focus:ring-emerald-600"
                 />
+              </div>
+
+              <div>
+                <label className="text-[10px] font-mono font-bold uppercase tracking-wider text-stone-500 block mb-1.5">
+                  Quantidade Estimada de SKUs / Produtos
+                </label>
+                <select
+                  value={storeForm.skus}
+                  onChange={(e) => setStoreForm({ ...storeForm, skus: e.target.value })}
+                  className="w-full px-4 py-2.5 bg-[#FAF8F5] border border-[#E8E2D5] rounded-xl text-xs text-stone-900 focus:bg-white focus:outline-none focus:ring-2 focus:ring-emerald-600"
+                >
+                  <option value="ate-1000">Até 1.000 produtos</option>
+                  <option value="1000-5000">1.000 a 5.000 produtos</option>
+                  <option value="mais-5000">Mais de 5.000 produtos</option>
+                </select>
               </div>
             </div>
 
-            <button
-              type="submit"
-              className="w-full py-3.5 bg-blue-600 hover:bg-blue-700 text-white font-extrabold text-xs rounded-xl shadow-md transition-all flex items-center justify-center gap-2 mt-4"
-            >
-              <span>Solicitar Integração de Parceiro</span>
-              <ArrowRight className="w-4 h-4" />
-            </button>
+            <div className="pt-4 flex justify-end">
+              <button
+                type="submit"
+                data-cursor="Credenciar"
+                className="py-3 px-8 bg-gradient-to-r from-[#064E3B] to-[#047857] hover:from-[#065F46] hover:to-[#059669] text-white text-xs font-bold rounded-2xl shadow-md transition-all flex items-center gap-2"
+              >
+                <span>Solicitar Credenciamento de Supermercado</span>
+                <ArrowRight className="w-4 h-4" />
+              </button>
+            </div>
           </form>
         )}
 
-        {/* 3. DRIVER REGISTRATION FORM */}
+        {/* PORTAL 3: ENTREGADOR */}
         {activePortal === 'driver' && (
-          <form onSubmit={(e) => handleSubmit(e, 'Entregador Parceiro')} className="space-y-4">
-            <div className="flex items-center gap-3 pb-4 border-b border-gray-100">
-              <div className="p-3 bg-orange-100 text-orange-800 rounded-2xl">
-                <Bike className="w-6 h-6" />
-              </div>
-              <div>
-                <h3 className="font-extrabold text-base text-gray-900">Cadastro de Entregador Parceiro</h3>
-                <p className="text-xs text-gray-500">Faça entregas para os mercados da sua região com horários flexíveis.</p>
-              </div>
+          <form onSubmit={(e) => handleSubmit(e, 'Entregador Autônomo')} className="space-y-6">
+            <div className="border-b border-[#E8E2D5] pb-5">
+              <h3 className="font-display font-bold text-xl text-stone-900">
+                Seja um Entregador Parceiro
+              </h3>
+              <p className="text-xs text-stone-500 mt-1">
+                Ganhe por entrega com repasses rápidos e flexibilidade de horários na sua região.
+              </p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
               <div>
-                <label className="block text-xs font-bold text-gray-700 mb-1">Nome Completo</label>
+                <label className="text-[10px] font-mono font-bold uppercase tracking-wider text-stone-500 block mb-1.5">
+                  Nome Completo
+                </label>
                 <input
                   type="text"
                   required
-                  placeholder="João da Silva Santos"
                   value={driverForm.name}
                   onChange={(e) => setDriverForm({ ...driverForm, name: e.target.value })}
-                  className="w-full px-3.5 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-xs focus:ring-2 focus:ring-orange-400 focus:outline-none"
+                  className="w-full px-4 py-2.5 bg-[#FAF8F5] border border-[#E8E2D5] rounded-xl text-xs text-stone-900 focus:bg-white focus:outline-none focus:ring-2 focus:ring-emerald-600"
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-bold text-gray-700 mb-1">CPF</label>
+                <label className="text-[10px] font-mono font-bold uppercase tracking-wider text-stone-500 block mb-1.5">
+                  CPF
+                </label>
                 <input
                   type="text"
                   required
-                  placeholder="000.000.000-00"
                   value={driverForm.cpf}
                   onChange={(e) => setDriverForm({ ...driverForm, cpf: e.target.value })}
-                  className="w-full px-3.5 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-xs focus:ring-2 focus:ring-orange-400 focus:outline-none"
+                  className="w-full px-4 py-2.5 bg-[#FAF8F5] border border-[#E8E2D5] rounded-xl text-xs text-stone-900 focus:bg-white focus:outline-none focus:ring-2 focus:ring-emerald-600 font-mono"
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-bold text-gray-700 mb-1">Veículo de Entrega</label>
+                <label className="text-[10px] font-mono font-bold uppercase tracking-wider text-stone-500 block mb-1.5">
+                  Veículo de Entrega
+                </label>
                 <select
                   value={driverForm.vehicle}
                   onChange={(e) => setDriverForm({ ...driverForm, vehicle: e.target.value })}
-                  className="w-full px-3.5 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-xs focus:ring-2 focus:ring-orange-400 focus:outline-none"
+                  className="w-full px-4 py-2.5 bg-[#FAF8F5] border border-[#E8E2D5] rounded-xl text-xs text-stone-900 focus:bg-white focus:outline-none focus:ring-2 focus:ring-emerald-600"
                 >
-                  <option value="moto">Motocicleta</option>
-                  <option value="bike">Bicicleta / E-Bike</option>
+                  <option value="moto">Moto</option>
                   <option value="carro">Carro / Utilitário</option>
+                  <option value="bicicleta">Bicicleta</option>
                 </select>
               </div>
 
               <div>
-                <label className="block text-xs font-bold text-gray-700 mb-1">Número da CNH (se aplicável)</label>
+                <label className="text-[10px] font-mono font-bold uppercase tracking-wider text-stone-500 block mb-1.5">
+                  Número da CNH
+                </label>
                 <input
                   type="text"
-                  placeholder="12345678900"
+                  required
                   value={driverForm.cnh}
                   onChange={(e) => setDriverForm({ ...driverForm, cnh: e.target.value })}
-                  className="w-full px-3.5 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-xs focus:ring-2 focus:ring-orange-400 focus:outline-none"
+                  className="w-full px-4 py-2.5 bg-[#FAF8F5] border border-[#E8E2D5] rounded-xl text-xs text-stone-900 focus:bg-white focus:outline-none focus:ring-2 focus:ring-emerald-600 font-mono"
                 />
               </div>
             </div>
 
-            <button
-              type="submit"
-              className="w-full py-3.5 bg-orange-500 hover:bg-orange-600 text-white font-extrabold text-xs rounded-xl shadow-md transition-all flex items-center justify-center gap-2 mt-4"
-            >
-              <span>Cadastrar como Entregador</span>
-              <ArrowRight className="w-4 h-4" />
-            </button>
+            <div className="pt-4 flex justify-end">
+              <button
+                type="submit"
+                data-cursor="Cadastrar"
+                className="py-3 px-8 bg-gradient-to-r from-[#064E3B] to-[#047857] hover:from-[#065F46] hover:to-[#059669] text-white text-xs font-bold rounded-2xl shadow-md transition-all flex items-center gap-2"
+              >
+                <span>Cadastrar como Entregador</span>
+                <ArrowRight className="w-4 h-4" />
+              </button>
+            </div>
           </form>
         )}
 
