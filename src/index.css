@@ -359,6 +359,24 @@ body.a11y-dark-mode,
   border-top-color: #213932 !important;
 }
 
+/* 3.1 EDITORIAL MARQUEE TICKER (BARRA DE NOTÍCIAS) */
+.a11y-dark-mode .editorial-marquee-bar,
+.a11y-dark-mode .bg-\[\#F4EFEA\]\/70 {
+  background-color: #0D1714 !important;
+  border-top-color: #1E332D !important;
+  border-bottom-color: #1E332D !important;
+}
+
+.a11y-dark-mode .editorial-marquee-bar .text-stone-800,
+.a11y-dark-mode .animate-marquee .text-stone-800 {
+  color: #E2E8F0 !important;
+}
+
+.a11y-dark-mode .editorial-marquee-bar .text-stone-300,
+.a11y-dark-mode .animate-marquee .text-stone-300 {
+  color: #2F4D44 !important;
+}
+
 /* 4. TEXTOS E TIPOGRAFIA NO MODO ESCURO */
 .a11y-dark-mode h1,
 .a11y-dark-mode h2,

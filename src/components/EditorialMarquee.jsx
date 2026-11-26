@@ -14,7 +14,7 @@ export default function EditorialMarquee() {
   ];
 
   return (
-    <div className="relative w-full overflow-hidden border-y border-[#E8E2D5] bg-[#F4EFEA]/70 py-3 select-none mb-10">
+    <div className="editorial-marquee-bar relative w-full overflow-hidden border-y border-[#E8E2D5] bg-[#F4EFEA]/70 py-3 select-none mb-10">
       <div className="flex w-max animate-marquee space-x-8 text-xs font-semibold uppercase tracking-wider text-stone-700">
         {[...marqueeItems, ...marqueeItems].map((item, index) => {
           const Icon = item.icon;
