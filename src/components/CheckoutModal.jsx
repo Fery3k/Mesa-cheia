@@ -523,7 +523,7 @@ export default function CheckoutModal({
             </div>
 
             {/* RIGHT COLUMN: Order Summary & Action (5 cols) */}
-            <div className="lg:col-span-5 p-6 sm:p-8 bg-[#F4EFEA]/80 flex flex-col justify-between space-y-6">
+            <div className="checkout-summary-column lg:col-span-5 p-6 sm:p-8 bg-[#F4EFEA]/80 flex flex-col justify-between space-y-6">
               
               <div className="space-y-5">
                 

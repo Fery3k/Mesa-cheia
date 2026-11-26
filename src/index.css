@@ -258,9 +258,37 @@ body.a11y-dark-mode,
 /* 2. CARDS, MODAIS E DRAWERS (Superfície Nível 1) */
 .a11y-dark-mode .bg-white,
 .a11y-dark-mode .bg-\[\#FAF8F5\],
-.a11y-dark-mode .bg-\[\#F4EFEA\] {
+.a11y-dark-mode .bg-\[\#F4EFEA\],
+.a11y-dark-mode [class*="bg-[#F4EFEA]"],
+.a11y-dark-mode [class*="bg-[#FAF8F5]"],
+.a11y-dark-mode [class*="bg-[#ECE6DB]"],
+.a11y-dark-mode .checkout-summary-column {
   background-color: #13221E !important;
   color: #F1F5F9 !important;
+}
+
+.a11y-dark-mode .checkout-summary-column {
+  background-color: #0E1A16 !important;
+}
+
+.a11y-dark-mode .checkout-summary-column .bg-white {
+  background-color: #152722 !important;
+  border-color: #243D36 !important;
+}
+
+.a11y-dark-mode .checkout-summary-column input {
+  background-color: #1B2E28 !important;
+  color: #FFFFFF !important;
+  border-color: #2D4C43 !important;
+}
+
+.a11y-dark-mode .checkout-summary-column button.bg-stone-900 {
+  background-color: #047857 !important;
+  color: #FFFFFF !important;
+}
+
+.a11y-dark-mode .checkout-summary-column button.text-emerald-800 {
+  color: #34D399 !important;
 }
 
 .a11y-dark-mode .border-\[\#E8E2D5\],
