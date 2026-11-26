@@ -16,8 +16,8 @@ export default function Footer({ setActiveTab }) {
           {/* Brand Info */}
           <div className="space-y-4 md:col-span-2">
             <div className="flex items-center gap-3">
-              <div className="w-12 h-12 rounded-2xl overflow-hidden shadow-lg shadow-emerald-950/40 border border-emerald-600/40 bg-[#064E3B] flex items-center justify-center shrink-0">
-                <img src={brandLogo} alt="Mesa Cheia Mascote" className="w-full h-full object-cover object-top scale-110" />
+              <div className="w-12 h-12 rounded-2xl overflow-hidden shadow-lg shadow-emerald-950/40 border border-emerald-600/40 bg-black flex items-center justify-center shrink-0 p-0.5">
+                <img src={brandLogo} alt="Mesa Cheia Mascote" className="w-full h-full object-contain" />
               </div>
               <span className="font-display font-black text-2xl tracking-tight text-[#F4EFEA]">
                 Mesa<span className="text-emerald-400">Cheia</span>
