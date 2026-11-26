@@ -11,7 +11,7 @@ export default function CartDrawer({
   onUpdateQuantity,
   onRemoveItem,
   onClearCart,
-  onConfirmOrder
+  onProceedToCheckout
 }) {
   const [paymentMethod, setPaymentMethod] = useState('pix');
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -308,19 +308,12 @@ export default function CartDrawer({
                     <motion.button
                       whileHover={{ scale: 1.02 }}
                       whileTap={{ scale: 0.98 }}
-                      onClick={handleCheckoutSubmit}
-                      disabled={isSubmitting}
-                      data-cursor="Finalizar"
+                      onClick={onProceedToCheckout}
+                      data-cursor="Checkout"
                       className="flex-1 py-3.5 px-6 bg-gradient-to-r from-[#064E3B] to-[#047857] hover:from-[#065F46] hover:to-[#059669] text-white font-display font-bold text-sm rounded-2xl shadow-lg shadow-emerald-950/20 transition-all flex items-center justify-center gap-2"
                     >
-                      {isSubmitting ? (
-                        <span>Processando Pedido...</span>
-                      ) : (
-                        <>
-                          <span>Finalizar Pedido</span>
-                          <ArrowRight className="w-4 h-4" />
-                        </>
-                      )}
+                      <span>Avançar para o Checkout</span>
+                      <ArrowRight className="w-4 h-4" />
                     </motion.button>
                   </div>
                 </div>

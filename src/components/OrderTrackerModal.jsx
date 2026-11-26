@@ -145,15 +145,40 @@ export default function OrderTrackerModal({ isOpen, onClose, orderDetails }) {
                 <span>Itens: {orderDetails.cartItems.reduce((acc, i) => acc + i.quantity, 0)}</span>
               </div>
 
+              {/* Delivery Address & Payment Info from Checkout */}
+              <div className="bg-[#FAF8F5] p-3 rounded-2xl border border-[#E8E2D5] text-xs space-y-1.5">
+                <div className="flex items-start gap-2 text-stone-700">
+                  <MapPin className="w-3.5 h-3.5 text-emerald-700 shrink-0 mt-0.5" />
+                  <div>
+                    <span className="font-bold text-stone-900 block">Endereço de Entrega:</span>
+                    <span className="text-stone-600 font-mono text-[11px]">{orderDetails.address || 'Av. Brasil, 1500 - Centro'}</span>
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-2 text-stone-700 pt-1 border-t border-[#E8E2D5]/80">
+                  <ShieldCheck className="w-3.5 h-3.5 text-emerald-700 shrink-0" />
+                  <div className="flex items-center gap-1.5">
+                    <span className="font-bold text-stone-900">Pagamento:</span>
+                    <span className="text-emerald-800 font-mono text-[11px] font-bold">{orderDetails.paymentDetails || 'Confirmado via App'}</span>
+                  </div>
+                </div>
+              </div>
+
               <div className="space-y-1 text-xs text-stone-600 font-mono">
                 <div className="flex justify-between">
                   <span>Subtotal:</span>
                   <span className="font-semibold text-stone-900">R$ {orderDetails.subtotal.toFixed(2).replace('.', ',')}</span>
                 </div>
                 <div className="flex justify-between text-amber-700 font-semibold">
-                  <span>Frete Cumulativo Total:</span>
+                  <span>Frete Cumulativo (Distância × 3,5):</span>
                   <span className="font-extrabold text-amber-800">+ R$ {orderDetails.deliveryFee.toFixed(2).replace('.', ',')}</span>
                 </div>
+                {orderDetails.discount > 0 && (
+                  <div className="flex justify-between text-emerald-700 font-semibold">
+                    <span>Desconto Aplicado:</span>
+                    <span>- R$ {orderDetails.discount.toFixed(2).replace('.', ',')}</span>
+                  </div>
+                )}
                 <div className="border-t border-[#E8E2D5] pt-1.5 flex justify-between font-bold text-sm text-stone-900 font-display">
                   <span>Total Pago:</span>
                   <span className="text-emerald-700 font-mono">R$ {orderDetails.total.toFixed(2).replace('.', ',')}</span>

@@ -11,6 +11,7 @@ import Footer from './components/Footer';
 import EditorialMarquee from './components/EditorialMarquee';
 import CustomCursor from './components/CustomCursor';
 import AccessibilityPanel from './components/AccessibilityPanel';
+import CheckoutModal from './components/CheckoutModal';
 import { SIMULATED_ADDRESSES, PRODUCTS, SUPERMARKETS, getProductDeliveryFee } from './mockData';
 import { Sparkles, Scale, Truck, ArrowRight, ArrowUpRight, CheckCircle2, ShieldCheck, Zap, MapPin } from 'lucide-react';
 import { motion } from 'framer-motion';
@@ -68,6 +69,7 @@ export default function App() {
     }
   ]);
   const [isCartOpen, setIsCartOpen] = useState(false);
+  const [isCheckoutOpen, setIsCheckoutOpen] = useState(false);
 
   // Price Comparator Modal State
   const [isComparatorOpen, setIsComparatorOpen] = useState(false);
@@ -121,8 +123,14 @@ export default function App() {
   const handleConfirmOrder = (orderInfo) => {
     setOrderDetails(orderInfo);
     setIsCartOpen(false);
+    setIsCheckoutOpen(false);
     setCartItems([]);
     setIsOrderTrackerOpen(true);
+  };
+
+  const handleProceedToCheckout = () => {
+    setIsCartOpen(false);
+    setIsCheckoutOpen(true);
   };
 
   const handleOpenComparatorModal = (product = null) => {
@@ -444,7 +452,19 @@ export default function App() {
         onUpdateQuantity={handleUpdateQuantity}
         onRemoveItem={handleRemoveItem}
         onClearCart={() => setCartItems([])}
+        onProceedToCheckout={handleProceedToCheckout}
+      />
+
+      <CheckoutModal
+        isOpen={isCheckoutOpen}
+        onClose={() => setIsCheckoutOpen(false)}
+        cartItems={cartItems}
+        selectedAddress={selectedAddress}
         onConfirmOrder={handleConfirmOrder}
+        onBackToCart={() => {
+          setIsCheckoutOpen(false);
+          setIsCartOpen(true);
+        }}
       />
 
       <PriceComparatorModal
