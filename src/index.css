@@ -439,6 +439,42 @@ body.a11y-dark-mode,
   color: #34D399 !important;
 }
 
+/* Caixa e Botão do Pix no Modo Escuro */
+.a11y-dark-mode .checkout-pix-box,
+.a11y-dark-mode .checkout-pix-box.bg-emerald-50\/70 {
+  background-color: #0E221C !important;
+  border-color: #1E4E40 !important;
+}
+
+.a11y-dark-mode .checkout-pix-icon {
+  background-color: #15332A !important;
+  border-color: #215A4A !important;
+}
+
+.a11y-dark-mode .checkout-pix-title,
+.a11y-dark-mode .checkout-pix-title span {
+  color: #F8FAFC !important;
+}
+
+.a11y-dark-mode .checkout-pix-desc {
+  color: #CBD5E1 !important;
+}
+
+.a11y-dark-mode .checkout-pix-discount {
+  color: #34D399 !important;
+}
+
+.a11y-dark-mode .checkout-pix-copy-btn {
+  background-color: #17362D !important;
+  color: #6EE7B7 !important;
+  border-color: #235A4B !important;
+}
+
+.a11y-dark-mode .checkout-pix-copy-btn:hover {
+  background-color: #1E4439 !important;
+  color: #FFFFFF !important;
+}
+
 .a11y-dark-mode .bg-emerald-50,
 .a11y-dark-mode .bg-emerald-50\/80,
 .a11y-dark-mode .bg-emerald-100\/70 {

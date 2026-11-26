@@ -362,21 +362,21 @@ export default function CheckoutModal({
                   <motion.div
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
-                    className="p-4 bg-emerald-50/70 rounded-2xl border border-emerald-200/80 space-y-3"
+                    className="checkout-pix-box p-4 bg-emerald-50/70 rounded-2xl border border-emerald-200/80 space-y-3"
                   >
                     <div className="flex items-center gap-3">
-                      <div className="w-20 h-20 bg-white p-2 rounded-xl border border-emerald-300 shadow-sm flex items-center justify-center text-4xl shrink-0">
+                      <div className="checkout-pix-icon w-20 h-20 bg-white p-2 rounded-xl border border-emerald-300 shadow-sm flex items-center justify-center text-4xl shrink-0">
                         📱
                       </div>
                       <div className="text-xs text-stone-700 space-y-1">
-                        <div className="font-bold text-emerald-950 flex items-center gap-1">
+                        <div className="checkout-pix-title font-bold text-emerald-950 flex items-center gap-1">
                           <Sparkles className="w-3.5 h-3.5 text-emerald-600" />
                           <span>QR Code Pix Dinâmico Gerado</span>
                         </div>
-                        <p className="text-[11px] text-stone-600 leading-tight">
+                        <p className="checkout-pix-desc text-[11px] text-stone-600 leading-tight">
                           Aprovação imediata em segundos. Seu pedido vai para separação assim que confirmado.
                         </p>
-                        <p className="text-[10px] font-mono text-emerald-800 font-bold">
+                        <p className="checkout-pix-discount text-[10px] font-mono text-emerald-800 font-bold">
                           Desconto aplicado: -R$ {pixDiscount.toFixed(2).replace('.', ',')}
                         </p>
                       </div>
@@ -384,7 +384,7 @@ export default function CheckoutModal({
 
                     <button
                       onClick={handleCopyPix}
-                      className="w-full py-2 px-3 bg-white hover:bg-emerald-100 text-emerald-900 font-mono text-xs font-bold rounded-xl border border-emerald-300 flex items-center justify-center gap-2 transition-all shadow-xs"
+                      className="checkout-pix-copy-btn w-full py-2 px-3 bg-white hover:bg-emerald-100 text-emerald-900 font-mono text-xs font-bold rounded-xl border border-emerald-300 flex items-center justify-center gap-2 transition-all shadow-xs"
                     >
                       {pixCopied ? (
                         <>
