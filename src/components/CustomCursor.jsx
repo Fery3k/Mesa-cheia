@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { motion, useSpring } from 'framer-motion';
 
-export default function CustomCursor() {
+export default function CustomCursor({ enabled = false }) {
   const [isPointerDevice, setIsPointerDevice] = useState(false);
   const [cursorText, setCursorText] = useState('');
   const [cursorVariant, setCursorVariant] = useState('default');
@@ -52,7 +52,7 @@ export default function CustomCursor() {
     };
   }, [cursorX, cursorY, isVisible]);
 
-  if (!isPointerDevice || !isVisible) return null;
+  if (!enabled || !isPointerDevice || !isVisible) return null;
 
   return (
     <motion.div

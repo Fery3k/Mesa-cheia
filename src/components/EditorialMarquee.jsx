@@ -6,7 +6,7 @@ export default function EditorialMarquee() {
     { icon: TrendingDown, text: 'Arroz Tipo 1 Tio João 5kg por R$ 25,90 no Mercado Econômico' },
     { icon: Sparkles, text: 'Peito de Frango Seara 1kg por R$ 17,49 no Mercado Econômico' },
     { icon: Zap, text: 'SuperMais: Menor tempo de entrega da cidade em apenas 20 min' },
-    { icon: Truck, text: 'Regra de Negócio: Frete Cumulativo por Item transparente' },
+    { icon: Truck, text: 'Novo: Frete calculado por Distância (km) × 3,5 — quanto mais perto, mais barato!' },
     { icon: TrendingDown, text: 'Cartela com 30 Ovos Mantiqueira por R$ 18,99 no Econômico' },
     { icon: Sparkles, text: 'Supermercado Centro: Mais Tradicional com 1.420 avaliações 4.8★' },
     { icon: Scale, text: 'Hortifrúti Fresco: Banana Prata R$ 5,49/kg e Tomate Italiano R$ 6,49/kg' },

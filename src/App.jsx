@@ -10,8 +10,9 @@ import RegistrationTabs from './components/RegistrationTabs';
 import Footer from './components/Footer';
 import EditorialMarquee from './components/EditorialMarquee';
 import CustomCursor from './components/CustomCursor';
+import AccessibilityPanel from './components/AccessibilityPanel';
 import { SIMULATED_ADDRESSES, PRODUCTS, SUPERMARKETS, getProductDeliveryFee } from './mockData';
-import { Sparkles, Scale, Truck, ArrowRight, ArrowUpRight, CheckCircle2, ShieldCheck, Zap } from 'lucide-react';
+import { Sparkles, Scale, Truck, ArrowRight, ArrowUpRight, CheckCircle2, ShieldCheck, Zap, MapPin } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 export default function App() {
@@ -27,17 +28,42 @@ export default function App() {
   const [activeFilter, setActiveFilter] = useState('all');
   const [selectedStoreId, setSelectedStoreId] = useState(null);
 
+  // Accessibility Settings State
+  const [accessibilitySettings, setAccessibilitySettings] = useState({
+    customCursor: false,
+    highContrast: false,
+    largerText: false,
+    reducedMotion: false,
+    darkMode: false,
+  });
+
+  const handleToggleAccessibility = (key) => {
+    setAccessibilitySettings((prev) => ({
+      ...prev,
+      [key]: !prev[key],
+    }));
+  };
+
+  // Build CSS classes based on accessibility settings
+  const accessibilityClasses = [
+    accessibilitySettings.highContrast ? 'a11y-high-contrast' : '',
+    accessibilitySettings.largerText ? 'a11y-larger-text' : '',
+    accessibilitySettings.reducedMotion ? 'a11y-reduced-motion' : '',
+    accessibilitySettings.darkMode ? 'a11y-dark-mode' : '',
+  ]
+    .filter(Boolean)
+    .join(' ');
+
   // Cart State - PRE-POPULADO COM O EXEMPLO EXATO DO ESCOPO:
-  // 2x Arroz (taxa R$ 3.00 cada = R$ 6.00) + 1x Feijão (taxa R$ 2.50) => Total Frete Cumulativo = R$ 8.50
   const [cartItems, setCartItems] = useState([
     {
-      product: PRODUCTS.find((p) => p.id === 'arroz-5kg') || PRODUCTS[0], // Arroz (Frete R$ 3,00)
-      store: SUPERMARKETS[0], // Supermercado Centro
+      product: PRODUCTS.find((p) => p.id === 'arroz-5kg') || PRODUCTS[0],
+      store: SUPERMARKETS[0], // Supermercado Centro (1.2 km → frete R$ 4,20)
       quantity: 2
     },
     {
-      product: PRODUCTS.find((p) => p.id === 'feijao-1kg') || PRODUCTS[1], // Feijão (Frete R$ 2,50)
-      store: SUPERMARKETS[0], // Supermercado Centro
+      product: PRODUCTS.find((p) => p.id === 'feijao-1kg') || PRODUCTS[1],
+      store: SUPERMARKETS[0], // Supermercado Centro (1.2 km → frete R$ 4,20)
       quantity: 1
     }
   ]);
@@ -104,7 +130,7 @@ export default function App() {
     setIsComparatorOpen(true);
   };
 
-  // Cart Totals
+  // Cart Totals — Frete = distância (km) × 3,5 × quantidade
   const cartCount = cartItems.reduce((sum, item) => sum + item.quantity, 0);
   const cartSubtotal = cartItems.reduce(
     (sum, item) => sum + item.product.prices[item.store.id] * item.quantity,
@@ -116,11 +142,21 @@ export default function App() {
   );
   const cartTotal = cartSubtotal + cumulativeDeliveryFee;
 
+  // Exemplo para o hero: frete do Supermercado Centro (1.2 km × 3.5 = R$ 4,20)
+  const exampleFee = getProductDeliveryFee(PRODUCTS[0], SUPERMARKETS[0].id);
+  const exampleTotal = (exampleFee * 2 + exampleFee * 1).toFixed(2).replace('.', ',');
+
   return (
-    <div className="min-h-screen flex flex-col bg-[#FAF8F5] text-stone-900 selection:bg-emerald-600 selection:text-white relative">
+    <div className={`min-h-screen flex flex-col bg-[#FAF8F5] text-stone-900 selection:bg-emerald-600 selection:text-white relative ${accessibilityClasses}`}>
       
-      {/* Awwwards Smooth Magnetic Custom Cursor */}
-      <CustomCursor />
+      {/* Awwwards Smooth Magnetic Custom Cursor (controlled by accessibility panel) */}
+      <CustomCursor enabled={accessibilitySettings.customCursor} />
+
+      {/* Accessibility Panel (floating button + drawer) */}
+      <AccessibilityPanel
+        settings={accessibilitySettings}
+        onToggle={handleToggleAccessibility}
+      />
 
       {/* Top Header Navbar */}
       <Header
@@ -157,18 +193,39 @@ export default function App() {
                 {/* Live Feature Tag */}
                 <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-amber-500/20 text-amber-300 border border-amber-400/30 text-xs font-mono font-bold uppercase tracking-wider mb-6 backdrop-blur-md">
                   <Truck className="w-3.5 h-3.5 text-amber-400" />
-                  <span>Cálculo de Frete Cumulativo por Item</span>
+                  <span>Frete = Distância × 3,5 por item</span>
                 </div>
 
                 {/* Hero Editorial Headline */}
                 <h1 className="text-3xl sm:text-5xl md:text-6xl font-display font-black tracking-tight leading-[1.08] mb-6 text-[#F4EFEA]">
-                  Compare Preços e Calcule o Frete Acumulado dos Itens!
+                  Compare Preços e Pague o Frete pela Distância!
                 </h1>
 
                 {/* Subtitle with exact business logic emphasis */}
                 <p className="text-emerald-100/90 text-sm sm:text-base leading-relaxed mb-8 font-medium max-w-2xl">
-                  Confira em tempo real a somatória das taxas de entrega multiplicadas pelas quantidades no carrinho (ex: 2x Arroz @ R$ 3,00 + 1x Feijão @ R$ 2,50 = <strong className="text-white font-bold underline decoration-amber-400 decoration-2 underline-offset-4">R$ 8,50 de Frete</strong>).
+                  O frete de cada mercado é calculado pela <strong className="text-white">distância (km) × 3,5</strong> e multiplicado pela quantidade no carrinho. Quanto mais perto o mercado, menor o frete!
                 </p>
+
+                {/* Distance Info Cards */}
+                <div className="flex flex-wrap gap-3 mb-8">
+                  {SUPERMARKETS.map((store) => {
+                    const fee = getProductDeliveryFee(null, store.id);
+                    return (
+                      <div key={store.id} className="bg-white/10 backdrop-blur-sm border border-white/15 rounded-2xl px-4 py-2.5 text-xs font-mono">
+                        <div className="flex items-center gap-2 mb-1">
+                          <span className="text-lg">{store.logo}</span>
+                          <span className="font-display font-bold text-sm text-white">{store.name}</span>
+                        </div>
+                        <div className="flex items-center gap-2 text-emerald-200">
+                          <MapPin className="w-3 h-3" />
+                          <span>{store.distanceKm} km</span>
+                          <span className="text-white/40">→</span>
+                          <span className="text-amber-300 font-bold">R$ {fee.toFixed(2).replace('.', ',')} /item</span>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
 
                 {/* Hero Action CTA Buttons */}
                 <div className="flex flex-wrap items-center gap-3.5 text-xs sm:text-sm font-bold">
@@ -191,7 +248,7 @@ export default function App() {
                     className="px-6 py-3.5 bg-amber-600 hover:bg-amber-500 text-white font-bold rounded-2xl shadow-lg shadow-amber-950/20 transition-all flex items-center gap-2 border border-amber-400/30"
                   >
                     <Truck className="w-4 h-4" />
-                    <span>Ver Carrinho com Frete Exemplo (R$ 8,50)</span>
+                    <span>Ver Carrinho com Frete Exemplo (R$ {exampleTotal})</span>
                   </motion.button>
                 </div>
               </div>
@@ -235,7 +292,7 @@ export default function App() {
                 Comparador Transparente de Preços e Fretes
               </h2>
               <p className="text-xs sm:text-sm text-stone-500 mt-2 leading-relaxed">
-                Análise direta de valores e fretes acumulados entre os 3 supermercados parceiros da sua região.
+                Frete calculado por <strong>distância (km) × 3,5</strong> para cada mercado. Compare valores reais entre os 3 parceiros.
               </p>
             </div>
 
@@ -247,8 +304,8 @@ export default function App() {
                   <Truck className="w-4 h-4" />
                 </div>
                 <div>
-                  <strong className="block font-bold text-amber-900 text-sm mb-1 font-display">Regra de Cálculo de Frete:</strong>
-                  Cada produto traz sua própria taxa de entrega associada (ex: Arroz = R$ 3,00; Feijão = R$ 2,50). No carrinho, as taxas são <strong>somadas multiplicadas pelas quantidades selecionadas</strong>.
+                  <strong className="block font-bold text-amber-900 text-sm mb-1 font-display">Nova Regra de Frete por Distância:</strong>
+                  O frete de cada mercado é calculado pela fórmula: <strong>distância (km) × 3,5</strong>. Sup. Centro (1,2 km) = R$ 4,20 | SuperMais (0,8 km) = R$ 2,80 | Econômico (2,5 km) = R$ 8,75 por item.
                 </div>
               </div>
 
@@ -256,27 +313,28 @@ export default function App() {
                 <table className="w-full text-left text-xs border-collapse">
                   <thead>
                     <tr className="bg-[#F4EFEA] text-stone-700 font-bold uppercase tracking-wider border-b border-[#E8E2D5] font-mono text-[11px]">
-                      <th className="p-4 sm:p-5">Produto & Taxa Frete</th>
-                      {SUPERMARKETS.map((store) => (
-                        <th key={store.id} className="p-4 sm:p-5 min-w-[200px]">
-                          <div className="flex items-center gap-2.5">
-                            <span className="text-2xl">{store.logo}</span>
-                            <div>
-                              <div className="font-display font-extrabold text-sm text-stone-900">{store.name}</div>
-                              <div className="text-[10px] text-stone-500 font-medium lowercase">
-                                {store.deliveryTimeMinutes} min • {store.badge}
+                      <th className="p-4 sm:p-5">Produto</th>
+                      {SUPERMARKETS.map((store) => {
+                        const fee = getProductDeliveryFee(null, store.id);
+                        return (
+                          <th key={store.id} className="p-4 sm:p-5 min-w-[200px]">
+                            <div className="flex items-center gap-2.5">
+                              <span className="text-2xl">{store.logo}</span>
+                              <div>
+                                <div className="font-display font-extrabold text-sm text-stone-900">{store.name}</div>
+                                <div className="text-[10px] text-stone-500 font-medium lowercase">
+                                  {store.distanceKm} km • frete R$ {fee.toFixed(2).replace('.', ',')}/item
+                                </div>
                               </div>
                             </div>
-                          </div>
-                        </th>
-                      ))}
+                          </th>
+                        );
+                      })}
                     </tr>
                   </thead>
 
                   <tbody className="divide-y divide-[#E8E2D5]">
                     {PRODUCTS.map((product) => {
-                      const fees = SUPERMARKETS.map((s) => getProductDeliveryFee(product, s.id));
-                      const minFee = Math.min(...fees);
                       let minP = Infinity;
                       Object.values(product.prices).forEach((p) => {
                         if (p < minP) minP = p;
@@ -290,10 +348,6 @@ export default function App() {
                               <div>
                                 <div className="font-display font-bold text-stone-900 text-sm">{product.name}</div>
                                 <div className="text-[10px] text-stone-500 font-mono">{product.unit}</div>
-                                <div className="mt-1 inline-flex items-center gap-1 text-[10px] font-mono font-bold text-amber-800 bg-amber-50 px-2 py-0.5 rounded border border-amber-200">
-                                  <Truck className="w-3 h-3 text-amber-600" />
-                                  <span>Frete a partir de R$ {minFee.toFixed(2).replace('.', ',')}</span>
-                                </div>
                               </div>
                             </div>
                           </td>
@@ -324,7 +378,7 @@ export default function App() {
                                   <div className="flex items-center justify-between text-[10px] font-mono text-amber-800 bg-amber-50/80 px-2 py-0.5 rounded border border-amber-200/60 mb-2">
                                     <span className="flex items-center gap-1">
                                       <Truck className="w-3 h-3 text-amber-600" />
-                                      <span>Frete deste mercado:</span>
+                                      <span>Frete ({store.distanceKm} km):</span>
                                     </span>
                                     <span className="font-bold">R$ {storeDeliveryFee.toFixed(2).replace('.', ',')}</span>
                                   </div>
@@ -356,7 +410,7 @@ export default function App() {
                 <div className="flex items-center gap-2">
                   <Sparkles className="w-4 h-4 text-emerald-700 shrink-0" />
                   <span>
-                    <strong>Dica Mesa Cheia:</strong> O frete total do seu pedido acumula o valor de entrega de cada unidade adicionada ao carrinho.
+                    <strong>Dica Mesa Cheia:</strong> O frete é calculado pela distância do mercado (km × 3,5) e multiplicado pela quantidade de cada item no carrinho.
                   </span>
                 </div>
               </div>

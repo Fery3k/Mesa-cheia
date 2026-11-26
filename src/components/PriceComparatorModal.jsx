@@ -1,6 +1,6 @@
 import React from 'react';
 import { X, Scale, Sparkles, ShoppingBag, Clock, Truck, Check, ArrowRight } from 'lucide-react';
-import { SUPERMARKETS, PRODUCTS, getProductDeliveryFee } from '../mockData';
+import { SUPERMARKETS, PRODUCTS, getProductDeliveryFee, getStoreDistance } from '../mockData';
 import { motion, AnimatePresence } from 'framer-motion';
 
 export default function PriceComparatorModal({ isOpen, onClose, selectedProduct, onAddToCart }) {
@@ -63,8 +63,8 @@ export default function PriceComparatorModal({ isOpen, onClose, selectedProduct,
                 <Truck className="w-4 h-4" />
               </div>
               <div>
-                <strong className="block font-bold text-amber-900 text-sm mb-1 font-display">Regra de Cálculo de Frete:</strong>
-                Cada produto traz sua própria taxa de entrega associada (ex: Arroz = R$ 3,00; Feijão = R$ 2,50). No carrinho, as taxas são <strong>somadas multiplicadas pelas quantidades selecionadas</strong>.
+                <strong className="block font-bold text-amber-900 text-sm mb-1 font-display">Nova Regra de Frete por Distância:</strong>
+                O frete é calculado pela fórmula <strong>distância (km) × 3,5</strong> para cada mercado. Sup. Centro = R$ 4,20 | SuperMais = R$ 2,80 | Econômico = R$ 8,75 por item adicionado.
               </div>
             </div>
 
@@ -81,7 +81,7 @@ export default function PriceComparatorModal({ isOpen, onClose, selectedProduct,
                           <div>
                             <div className="font-display font-extrabold text-sm text-stone-900">{store.name}</div>
                             <div className="text-[10px] text-stone-500 font-medium lowercase">
-                              {store.deliveryTimeMinutes} min • {store.badge}
+                              {store.distanceKm} km • frete R$ {getProductDeliveryFee(null, store.id).toFixed(2).replace('.', ',')}/item
                             </div>
                           </div>
                         </div>
@@ -109,7 +109,7 @@ export default function PriceComparatorModal({ isOpen, onClose, selectedProduct,
                               <div className="text-[10px] text-stone-500 font-mono">{product.unit}</div>
                               <div className="mt-1 inline-flex items-center gap-1 text-[10px] font-mono font-bold text-amber-800 bg-amber-50 px-2 py-0.5 rounded border border-amber-200">
                                 <Truck className="w-3 h-3 text-amber-600" />
-                                <span>Frete a partir de R$ {minFee.toFixed(2).replace('.', ',')}</span>
+                                <span>Frete a partir de R$ {Math.min(...SUPERMARKETS.map(s => getProductDeliveryFee(null, s.id))).toFixed(2).replace('.', ',')}</span>
                               </div>
                             </div>
                           </div>
@@ -141,7 +141,7 @@ export default function PriceComparatorModal({ isOpen, onClose, selectedProduct,
                                 <div className="flex items-center justify-between text-[10px] font-mono text-amber-800 bg-amber-50/80 px-2 py-0.5 rounded border border-amber-200/60 mb-2">
                                   <span className="flex items-center gap-1">
                                     <Truck className="w-3 h-3 text-amber-600" />
-                                    <span>Frete mercado:</span>
+                                    <span>Frete ({store.distanceKm} km):</span>
                                   </span>
                                   <span className="font-bold">R$ {storeDeliveryFee.toFixed(2).replace('.', ',')}</span>
                                 </div>
@@ -177,7 +177,7 @@ export default function PriceComparatorModal({ isOpen, onClose, selectedProduct,
               <div className="flex items-center gap-2">
                 <Sparkles className="w-4 h-4 text-emerald-700 shrink-0" />
                 <span>
-                  <strong>Dica Mesa Cheia:</strong> O frete total do seu pedido acumula o valor de entrega de cada unidade adicionada ao carrinho.
+                  <strong>Dica Mesa Cheia:</strong> O frete é calculado pela distância do mercado (km × 3,5) e multiplicado pela quantidade de cada item no carrinho.
                 </span>
               </div>
             </div>

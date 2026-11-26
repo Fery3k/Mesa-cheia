@@ -55,13 +55,21 @@ export const SUPERMARKETS = [
   }
 ];
 
+// TAXA DE FRETE = MULTIPLICADOR × distância do mercado (km)
+const DELIVERY_FEE_MULTIPLIER = 3.5;
+
 // Helper: retorna o frete de um produto para um dado supermercado
-// Uso: getProductDeliveryFee(product, storeId)
+// Fórmula: distância (km) do mercado × 3,5
 export function getProductDeliveryFee(product, storeId) {
-  if (product.deliveryFees && product.deliveryFees[storeId] !== undefined) {
-    return product.deliveryFees[storeId];
-  }
-  return product.deliveryFee || 2.00;
+  const store = SUPERMARKETS.find((s) => s.id === storeId);
+  if (!store) return 0;
+  return parseFloat((store.distanceKm * DELIVERY_FEE_MULTIPLIER).toFixed(2));
+}
+
+// Helper: retorna a distância do mercado
+export function getStoreDistance(storeId) {
+  const store = SUPERMARKETS.find((s) => s.id === storeId);
+  return store ? store.distanceKm : 0;
 }
 
 export const PRODUCTS = [
@@ -74,11 +82,6 @@ export const PRODUCTS = [
     category: 'Grãos & Farinhas',
     image: '🍚',
     unit: 'Pacote 5kg',
-    deliveryFees: {
-      'supermercado-centro': 3.00,
-      'super-mais': 3.50,
-      'mercado-economico': 2.50
-    },
     description: 'Arroz nobre agulhinha tipo 1, soltinho e macio.',
     prices: {
       'supermercado-centro': 28.90,
@@ -93,11 +96,6 @@ export const PRODUCTS = [
     category: 'Grãos & Farinhas',
     image: '🫘',
     unit: 'Pacote 1kg',
-    deliveryFees: {
-      'supermercado-centro': 2.50,
-      'super-mais': 3.00,
-      'mercado-economico': 2.00
-    },
     description: 'Feijão novo, caldo encorpado e cozimento rápido.',
     prices: {
       'supermercado-centro': 7.49,
@@ -112,11 +110,6 @@ export const PRODUCTS = [
     category: 'Grãos & Farinhas',
     image: '🍲',
     unit: 'Pacote 1kg',
-    deliveryFees: {
-      'supermercado-centro': 2.20,
-      'super-mais': 2.80,
-      'mercado-economico': 1.80
-    },
     description: 'Grãos graúdos selecionados, perfeito para feijoada aromática.',
     prices: {
       'supermercado-centro': 7.99,
@@ -131,11 +124,6 @@ export const PRODUCTS = [
     category: 'Grãos & Farinhas',
     image: '🌾',
     unit: 'Pacote 1kg',
-    deliveryFees: {
-      'supermercado-centro': 1.80,
-      'super-mais': 2.20,
-      'mercado-economico': 1.50
-    },
     description: 'Farinha de trigo pura sem fermento, ideal para pães, bolos e tortas.',
     prices: {
       'supermercado-centro': 5.49,
@@ -150,11 +138,6 @@ export const PRODUCTS = [
     category: 'Grãos & Farinhas',
     image: '🥣',
     unit: 'Caixa 450g',
-    deliveryFees: {
-      'supermercado-centro': 1.50,
-      'super-mais': 1.90,
-      'mercado-economico': 1.20
-    },
     description: 'Rica em fibras e nutrientes para um café da manhã saudável.',
     prices: {
       'supermercado-centro': 6.99,
@@ -173,11 +156,6 @@ export const PRODUCTS = [
     category: 'Hortifrúti & Feira',
     image: '🍌',
     unit: 'Cacho aprox. 1kg',
-    deliveryFees: {
-      'supermercado-centro': 1.60,
-      'super-mais': 2.00,
-      'mercado-economico': 1.30
-    },
     description: 'Frutas frescas climatizadas, doces e ricas em potássio.',
     prices: {
       'supermercado-centro': 6.99,
@@ -192,11 +170,6 @@ export const PRODUCTS = [
     category: 'Hortifrúti & Feira',
     image: '🍎',
     unit: 'Pacote 1kg',
-    deliveryFees: {
-      'supermercado-centro': 1.70,
-      'super-mais': 2.10,
-      'mercado-economico': 1.40
-    },
     description: 'Maçãs vermelhas, suculentas e crocantes colhidas no sul do país.',
     prices: {
       'supermercado-centro': 10.90,
@@ -211,11 +184,6 @@ export const PRODUCTS = [
     category: 'Hortifrúti & Feira',
     image: '🍅',
     unit: 'Kg a granel',
-    deliveryFees: {
-      'supermercado-centro': 1.80,
-      'super-mais': 2.20,
-      'mercado-economico': 1.40
-    },
     description: 'Tomates alongados carnudos e firmes, ótimos para saladas e molhos frescos.',
     prices: {
       'supermercado-centro': 7.89,
@@ -230,11 +198,6 @@ export const PRODUCTS = [
     category: 'Hortifrúti & Feira',
     image: '🥔',
     unit: 'Pacote 1kg',
-    deliveryFees: {
-      'supermercado-centro': 1.90,
-      'super-mais': 2.40,
-      'mercado-economico': 1.50
-    },
     description: 'Batatas selecionadas de casca lisa, perfeitas para assar, cozinhar ou fritar.',
     prices: {
       'supermercado-centro': 6.49,
@@ -249,11 +212,6 @@ export const PRODUCTS = [
     category: 'Hortifrúti & Feira',
     image: '🧅',
     unit: 'Pacote 1kg',
-    deliveryFees: {
-      'supermercado-centro': 1.50,
-      'super-mais': 1.90,
-      'mercado-economico': 1.20
-    },
     description: 'Cebolas de alta qualidade e sabor marcante para refogados do dia a dia.',
     prices: {
       'supermercado-centro': 5.90,
@@ -268,11 +226,6 @@ export const PRODUCTS = [
     category: 'Hortifrúti & Feira',
     image: '🥬',
     unit: 'Unidade fresca',
-    deliveryFees: {
-      'supermercado-centro': 1.20,
-      'super-mais': 1.50,
-      'mercado-economico': 1.00
-    },
     description: 'Folhas crocantes cultivadas em água mineral purificada sem agrotóxicos pesados.',
     prices: {
       'supermercado-centro': 3.99,
@@ -287,11 +240,6 @@ export const PRODUCTS = [
     category: 'Hortifrúti & Feira',
     image: '🍊',
     unit: 'Saco 2kg',
-    deliveryFees: {
-      'supermercado-centro': 2.20,
-      'super-mais': 2.70,
-      'mercado-economico': 1.80
-    },
     description: 'Laranjas ricas em vitamina C com alto rendimento para sucos naturais.',
     prices: {
       'supermercado-centro': 9.80,
@@ -310,11 +258,6 @@ export const PRODUCTS = [
     category: 'Carnes & Proteínas',
     image: '🥚',
     unit: 'Cartela 30 ovos',
-    deliveryFees: {
-      'supermercado-centro': 2.80,
-      'super-mais': 3.30,
-      'mercado-economico': 2.30
-    },
     description: 'Cartela econômica com 30 ovos frescos inspecionados de altíssima qualidade.',
     prices: {
       'supermercado-centro': 21.90,
@@ -329,11 +272,6 @@ export const PRODUCTS = [
     category: 'Carnes & Proteínas',
     image: '🍗',
     unit: 'Bandeja 1kg',
-    deliveryFees: {
-      'supermercado-centro': 2.80,
-      'super-mais': 3.50,
-      'mercado-economico': 2.20
-    },
     description: 'Cortes limpos sem osso e sem pele, congelados individualmente.',
     prices: {
       'supermercado-centro': 19.90,
@@ -348,11 +286,6 @@ export const PRODUCTS = [
     category: 'Carnes & Proteínas',
     image: '🥩',
     unit: 'Bandeja 1kg',
-    deliveryFees: {
-      'supermercado-centro': 3.20,
-      'super-mais': 3.80,
-      'mercado-economico': 2.70
-    },
     description: 'Corte magro de patinho de primeira moído no dia, sem excesso de gordura.',
     prices: {
       'supermercado-centro': 38.90,
@@ -367,11 +300,6 @@ export const PRODUCTS = [
     category: 'Carnes & Proteínas',
     image: '🌭',
     unit: 'Pacote 500g',
-    deliveryFees: {
-      'supermercado-centro': 1.90,
-      'super-mais': 2.40,
-      'mercado-economico': 1.50
-    },
     description: 'Defumação natural com tempero autêntico e suculência equilibrada.',
     prices: {
       'supermercado-centro': 14.50,
@@ -386,11 +314,6 @@ export const PRODUCTS = [
     category: 'Carnes & Proteínas',
     image: '🐟',
     unit: 'Pacote 800g',
-    deliveryFees: {
-      'supermercado-centro': 2.90,
-      'super-mais': 3.50,
-      'mercado-economico': 2.40
-    },
     description: 'Filés nobres de tilápia sem espinhas, carne branca, leve e saudável.',
     prices: {
       'supermercado-centro': 36.90,
@@ -409,11 +332,6 @@ export const PRODUCTS = [
     category: 'Laticínios & Frios',
     image: '🥛',
     unit: 'Caixa 1L',
-    deliveryFees: {
-      'supermercado-centro': 1.50,
-      'super-mais': 1.80,
-      'mercado-economico': 1.20
-    },
     description: 'Leite UHT integral fonte de cálcio e vitaminas essenciais.',
     prices: {
       'supermercado-centro': 4.99,
@@ -428,11 +346,6 @@ export const PRODUCTS = [
     category: 'Laticínios & Frios',
     image: '🧀',
     unit: 'Bandeja 200g',
-    deliveryFees: {
-      'supermercado-centro': 1.60,
-      'super-mais': 2.00,
-      'mercado-economico': 1.30
-    },
     description: 'Fatias finas com derretimento perfeito para lanches e pizzas.',
     prices: {
       'supermercado-centro': 9.90,
@@ -447,11 +360,6 @@ export const PRODUCTS = [
     category: 'Laticínios & Frios',
     image: '🥓',
     unit: 'Bandeja 200g',
-    deliveryFees: {
-      'supermercado-centro': 1.50,
-      'super-mais': 1.90,
-      'mercado-economico': 1.20
-    },
     description: 'Presunto cozido sem capa de gordura, sabor suave e suculento.',
     prices: {
       'supermercado-centro': 7.89,
@@ -466,11 +374,6 @@ export const PRODUCTS = [
     category: 'Laticínios & Frios',
     image: '🧈',
     unit: 'Pote 200g',
-    deliveryFees: {
-      'supermercado-centro': 1.70,
-      'super-mais': 2.10,
-      'mercado-economico': 1.40
-    },
     description: 'Manteiga tradicional brasileira feita de creme de leite puro.',
     prices: {
       'supermercado-centro': 12.90,
@@ -485,11 +388,6 @@ export const PRODUCTS = [
     category: 'Laticínios & Frios',
     image: '🥣',
     unit: 'Copo 200g',
-    deliveryFees: {
-      'supermercado-centro': 1.40,
-      'super-mais': 1.80,
-      'mercado-economico': 1.10
-    },
     description: 'Textura aveludada inconfundível para passar no pão quentinho.',
     prices: {
       'supermercado-centro': 8.49,
@@ -504,11 +402,6 @@ export const PRODUCTS = [
     category: 'Laticínios & Frios',
     image: '🥫',
     unit: 'Lata 395g',
-    deliveryFees: {
-      'supermercado-centro': 1.30,
-      'super-mais': 1.70,
-      'mercado-economico': 1.00
-    },
     description: 'O clássico para fazer brigadeiros, pudins e coberturas cremosas.',
     prices: {
       'supermercado-centro': 6.89,
@@ -527,11 +420,6 @@ export const PRODUCTS = [
     category: 'Padaria & Matinais',
     image: '☕',
     unit: 'Pacote 500g',
-    deliveryFees: {
-      'supermercado-centro': 2.00,
-      'super-mais': 2.50,
-      'mercado-economico': 1.60
-    },
     description: 'Café forte e encorpado com ponto de torra tradicional equilibrado.',
     prices: {
       'supermercado-centro': 17.80,
@@ -546,11 +434,6 @@ export const PRODUCTS = [
     category: 'Padaria & Matinais',
     image: '🍞',
     unit: 'Pacote 500g',
-    deliveryFees: {
-      'supermercado-centro': 1.50,
-      'super-mais': 1.80,
-      'mercado-economico': 1.20
-    },
     description: 'Fatias macias e consistentes para torradas e sanduíches diários.',
     prices: {
       'supermercado-centro': 8.90,
@@ -565,11 +448,6 @@ export const PRODUCTS = [
     category: 'Padaria & Matinais',
     image: '🍫',
     unit: 'Lata 400g',
-    deliveryFees: {
-      'supermercado-centro': 1.60,
-      'super-mais': 2.00,
-      'mercado-economico': 1.30
-    },
     description: 'Energia com sabor marcante de cacau e enriquecido com vitaminas.',
     prices: {
       'supermercado-centro': 9.20,
@@ -584,11 +462,6 @@ export const PRODUCTS = [
     category: 'Padaria & Matinais',
     image: '🍪',
     unit: 'Pacote 144g',
-    deliveryFees: {
-      'supermercado-centro': 1.10,
-      'super-mais': 1.40,
-      'mercado-economico': 0.90
-    },
     description: 'Casquinha de chocolate crocante com recheio cremoso e marcante.',
     prices: {
       'supermercado-centro': 4.49,
@@ -607,11 +480,6 @@ export const PRODUCTS = [
     category: 'Mercearia & Molhos',
     image: '🍾',
     unit: 'Garrafa 900ml',
-    deliveryFees: {
-      'supermercado-centro': 1.80,
-      'super-mais': 2.20,
-      'mercado-economico': 1.50
-    },
     description: 'Óleo de soja 100% puro e refinado com ômega 3 e vitamina E.',
     prices: {
       'supermercado-centro': 6.89,
@@ -626,11 +494,6 @@ export const PRODUCTS = [
     category: 'Mercearia & Molhos',
     image: '🍬',
     unit: 'Pacote 1kg',
-    deliveryFees: {
-      'supermercado-centro': 1.50,
-      'super-mais': 1.90,
-      'mercado-economico': 1.20
-    },
     description: 'Açúcar refinado extra fino e branquinho de rápida dissolução.',
     prices: {
       'supermercado-centro': 4.60,
@@ -645,11 +508,6 @@ export const PRODUCTS = [
     category: 'Mercearia & Molhos',
     image: '🍝',
     unit: 'Pacote 500g',
-    deliveryFees: {
-      'supermercado-centro': 1.20,
-      'super-mais': 1.50,
-      'mercado-economico': 1.00
-    },
     description: 'Massa com sêmola de trigo duro selecionado, cozimento al dente.',
     prices: {
       'supermercado-centro': 3.99,
@@ -664,11 +522,6 @@ export const PRODUCTS = [
     category: 'Mercearia & Molhos',
     image: '🫒',
     unit: 'Vidro 500ml',
-    deliveryFees: {
-      'supermercado-centro': 2.10,
-      'super-mais': 2.60,
-      'mercado-economico': 1.80
-    },
     description: 'Acidez máxima 0.5%, sabor frutado marcante prensado a frio.',
     prices: {
       'supermercado-centro': 42.90,
@@ -683,11 +536,6 @@ export const PRODUCTS = [
     category: 'Mercearia & Molhos',
     image: '🍅',
     unit: 'Sachê 340g',
-    deliveryFees: {
-      'supermercado-centro': 1.10,
-      'super-mais': 1.40,
-      'mercado-economico': 0.90
-    },
     description: 'Feito com tomates frescos maduros e temperos naturais finos.',
     prices: {
       'supermercado-centro': 2.89,
@@ -702,11 +550,6 @@ export const PRODUCTS = [
     category: 'Mercearia & Molhos',
     image: '🫙',
     unit: 'Pote 500g',
-    deliveryFees: {
-      'supermercado-centro': 1.50,
-      'super-mais': 1.90,
-      'mercado-economico': 1.20
-    },
     description: 'Cremosidade clássica com ovos de galinhas caipiras e óleos de fazenda.',
     prices: {
       'supermercado-centro': 9.80,
@@ -721,11 +564,6 @@ export const PRODUCTS = [
     category: 'Mercearia & Molhos',
     image: '🐟',
     unit: 'Lata 170g',
-    deliveryFees: {
-      'supermercado-centro': 1.20,
-      'super-mais': 1.50,
-      'mercado-economico': 1.00
-    },
     description: 'Lombo de atum conservado em óleo comestível, fonte pura de ômega 3.',
     prices: {
       'supermercado-centro': 9.90,
@@ -744,11 +582,6 @@ export const PRODUCTS = [
     category: 'Bebidas',
     image: '🧃',
     unit: 'Garrafa 1.5L',
-    deliveryFees: {
-      'supermercado-centro': 2.00,
-      'super-mais': 2.50,
-      'mercado-economico': 1.60
-    },
     description: 'Sem adição de açúcares ou conservantes, puro néctar da fruta.',
     prices: {
       'supermercado-centro': 14.90,
@@ -763,11 +596,6 @@ export const PRODUCTS = [
     category: 'Bebidas',
     image: '🥤',
     unit: 'Garrafa Pet 2L',
-    deliveryFees: {
-      'supermercado-centro': 2.20,
-      'super-mais': 2.70,
-      'mercado-economico': 1.80
-    },
     description: 'O refrigerante mais famoso do mundo bem gelado para a sua refeição.',
     prices: {
       'supermercado-centro': 9.99,
@@ -782,11 +610,6 @@ export const PRODUCTS = [
     category: 'Bebidas',
     image: '💧',
     unit: 'Garrafa 1.5L',
-    deliveryFees: {
-      'supermercado-centro': 1.50,
-      'super-mais': 1.80,
-      'mercado-economico': 1.20
-    },
     description: 'Água mineral límpida e purificada de fonte natural preservada.',
     prices: {
       'supermercado-centro': 3.49,
@@ -805,11 +628,6 @@ export const PRODUCTS = [
     category: 'Limpeza & Higiene',
     image: '🧴',
     unit: 'Frasco 500ml',
-    deliveryFees: {
-      'supermercado-centro': 1.00,
-      'super-mais': 1.30,
-      'mercado-economico': 0.80
-    },
     description: 'Detergente lava-louças com alto poder desengordurante e pH neutro.',
     prices: {
       'supermercado-centro': 2.49,
@@ -824,11 +642,6 @@ export const PRODUCTS = [
     category: 'Limpeza & Higiene',
     image: '🧼',
     unit: 'Caixa 1.6kg',
-    deliveryFees: {
-      'supermercado-centro': 2.50,
-      'super-mais': 3.00,
-      'mercado-economico': 2.00
-    },
     description: 'Remove as manchas mais difíceis na primeira lavagem sem desbotar tecidos.',
     prices: {
       'supermercado-centro': 24.90,
@@ -843,11 +656,6 @@ export const PRODUCTS = [
     category: 'Limpeza & Higiene',
     image: '🧻',
     unit: 'Pacote 12 rolos',
-    deliveryFees: {
-      'supermercado-centro': 2.20,
-      'super-mais': 2.70,
-      'mercado-economico': 1.80
-    },
     description: 'Máxima suavidade e absorção com fibras 100% naturais certificadas.',
     prices: {
       'supermercado-centro': 21.50,

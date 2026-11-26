@@ -76,3 +76,125 @@
 .bento-card:hover {
   transform: translateY(-4px);
 }
+
+/* ============================
+   ACCESSIBILITY MODES
+   ============================ */
+
+/* Alto Contraste */
+.a11y-high-contrast {
+  --bg-primary: #FFFFFF;
+  --text-primary: #000000;
+}
+
+.a11y-high-contrast * {
+  border-color: #000000 !important;
+}
+
+.a11y-high-contrast p,
+.a11y-high-contrast span,
+.a11y-high-contrast div,
+.a11y-high-contrast h1,
+.a11y-high-contrast h2,
+.a11y-high-contrast h3,
+.a11y-high-contrast h4,
+.a11y-high-contrast label,
+.a11y-high-contrast td,
+.a11y-high-contrast th {
+  color: #000000 !important;
+}
+
+.a11y-high-contrast button {
+  border: 2px solid #000000 !important;
+  font-weight: 800 !important;
+}
+
+/* Texto Maior */
+.a11y-larger-text {
+  font-size: 118% !important;
+}
+
+.a11y-larger-text h1 {
+  font-size: 2.8rem !important;
+}
+
+.a11y-larger-text h2 {
+  font-size: 2rem !important;
+}
+
+.a11y-larger-text h3 {
+  font-size: 1.5rem !important;
+}
+
+.a11y-larger-text p,
+.a11y-larger-text span,
+.a11y-larger-text div,
+.a11y-larger-text button,
+.a11y-larger-text input,
+.a11y-larger-text td,
+.a11y-larger-text th {
+  font-size: inherit;
+}
+
+/* Reduzir Animações */
+.a11y-reduced-motion,
+.a11y-reduced-motion * {
+  animation: none !important;
+  transition: none !important;
+}
+
+/* Modo Escuro */
+.a11y-dark-mode {
+  background-color: #1a1a2e !important;
+  color: #E0E0E0 !important;
+}
+
+.a11y-dark-mode header,
+.a11y-dark-mode main,
+.a11y-dark-mode footer,
+.a11y-dark-mode section {
+  background-color: #1a1a2e !important;
+}
+
+.a11y-dark-mode .bg-\[#FAF8F5\],
+.a11y-dark-mode .bg-white,
+.a11y-dark-mode .bg-\[#F4EFEA\] {
+  background-color: #16213e !important;
+}
+
+.a11y-dark-mode .bg-white\/90,
+.a11y-dark-mode .bg-white\/85 {
+  background-color: rgba(22, 33, 62, 0.9) !important;
+}
+
+.a11y-dark-mode .text-stone-900,
+.a11y-dark-mode .text-stone-800,
+.a11y-dark-mode .text-stone-700 {
+  color: #E0E0E0 !important;
+}
+
+.a11y-dark-mode .text-stone-600,
+.a11y-dark-mode .text-stone-500,
+.a11y-dark-mode .text-stone-400 {
+  color: #A0A0A0 !important;
+}
+
+.a11y-dark-mode .border-\[#E8E2D5\],
+.a11y-dark-mode .border-\[#E8E2D5\]\/80 {
+  border-color: #2a2a4a !important;
+}
+
+.a11y-dark-mode input {
+  background-color: #16213e !important;
+  color: #E0E0E0 !important;
+  border-color: #2a2a4a !important;
+}
+
+.a11y-dark-mode ::-webkit-scrollbar-track {
+  background: #1a1a2e;
+}
+
+.a11y-dark-mode ::-webkit-scrollbar-thumb {
+  background: #2a2a4a;
+  border-color: #1a1a2e;
+}

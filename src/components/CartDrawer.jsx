@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { X, Trash2, Plus, Minus, ShoppingBag, Clock, ShieldCheck, ArrowRight, Truck, CreditCard, Sparkles, CheckCircle2, Calculator, Receipt } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import confetti from 'canvas-confetti';
-import { getProductDeliveryFee } from '../mockData';
+import { getProductDeliveryFee, getStoreDistance } from '../mockData';
 
 export default function CartDrawer({
   isOpen,
@@ -148,10 +148,10 @@ export default function CartDrawer({
                     <div className="bg-gradient-to-br from-amber-50 to-orange-50/70 p-5 rounded-3xl border border-amber-200/80 shadow-sm">
                       <div className="flex items-center gap-2 mb-2 text-amber-900 font-bold text-xs uppercase tracking-wider font-mono">
                         <Truck className="w-4 h-4 text-amber-600" />
-                        <span>Regra Crítica de Frete Cumulativo:</span>
+                        <span>Frete = Distância (km) × 3,5 por Item:</span>
                       </div>
                       <p className="text-xs text-amber-950 font-medium leading-relaxed mb-3">
-                        Cada item soma sua taxa de entrega individual multiplicada pela quantidade no carrinho:
+                        O frete de cada mercado é calculado pela distância (km) × 3,5, multiplicado pela quantidade no carrinho:
                       </p>
 
                       <div className="space-y-1.5 bg-white/90 p-3 rounded-2xl border border-amber-200/60 text-[11px] font-mono">
@@ -161,7 +161,7 @@ export default function CartDrawer({
                           return (
                             <div key={idx} className="flex items-center justify-between text-stone-700">
                               <span className="truncate pr-2">
-                                {item.quantity}x {item.product.name.split('/')[0]} ({item.store.name} - R$ {fee.toFixed(2).replace('.', ',')}/un)
+                                {item.quantity}x {item.product.name.split('/')[0]} ({item.store.name} {getStoreDistance(item.store.id)} km → R$ {fee.toFixed(2).replace('.', ',')}/un)
                               </span>
                               <span className="font-bold text-amber-700 shrink-0">
                                 + R$ {totalItemFee.toFixed(2).replace('.', ',')}
@@ -206,7 +206,7 @@ export default function CartDrawer({
                                         R$ {itemPrice.toFixed(2).replace('.', ',')} cada
                                       </div>
                                       <div className="text-[10px] text-amber-800 font-mono mt-0.5">
-                                        Frete Cumulativo ({item.quantity}x R$ {itemDeliveryFee.toFixed(2).replace('.', ',')} neste mercado):{' '}
+                                        Frete ({getStoreDistance(store.id)} km × 3,5 = R$ {itemDeliveryFee.toFixed(2).replace('.', ',')} × {item.quantity}un):{' '}
                                         <strong className="text-amber-900 font-bold">R$ {itemTotalDeliveryFee.toFixed(2).replace('.', ',')}</strong>
                                       </div>
                                     </div>

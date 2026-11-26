@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { ShoppingBag, TrendingDown, Sparkles, Scale, Plus, Truck, Filter, Check, ArrowRight } from 'lucide-react';
-import { PRODUCTS, SUPERMARKETS, getProductDeliveryFee } from '../mockData';
+import { PRODUCTS, SUPERMARKETS, getProductDeliveryFee, getStoreDistance } from '../mockData';
 import { motion, AnimatePresence } from 'framer-motion';
 
 export default function ProductCatalog({
@@ -171,10 +171,10 @@ export default function ProductCatalog({
                       {product.unit}
                     </span>
                     
-                    {/* REGRA CRÍTICA: TAXA DE FRETE INDIVIDUAL DESTACADA POR MERCADO */}
+                    {/* FRETE POR DISTÂNCIA: km × 3,5 */}
                     <span className="absolute bottom-3 right-3 bg-amber-600 text-white font-mono text-[10px] font-extrabold px-2.5 py-1 rounded-lg shadow-sm flex items-center gap-1.5 border border-amber-400/30">
                       <Truck className="w-3 h-3 text-amber-200" />
-                      <span>Frete: R$ {minDeliveryFee.toFixed(2).replace('.', ',')} a {maxDeliveryFee.toFixed(2).replace('.', ',')}</span>
+                      <span>Frete: R$ {minDeliveryFee.toFixed(2).replace('.', ',')} ~ {maxDeliveryFee.toFixed(2).replace('.', ',')}</span>
                     </span>
                   </div>
 
@@ -189,10 +189,10 @@ export default function ProductCatalog({
                     {product.description}
                   </p>
 
-                  {/* Regra de Negócio Notice */}
+                  {/* Frete por Distância Notice */}
                   <div className="flex items-center gap-1.5 text-[10px] text-amber-900 font-semibold bg-amber-50/80 p-2.5 rounded-xl border border-amber-200/60 mb-4">
                     <Truck className="w-3.5 h-3.5 shrink-0 text-amber-600" />
-                    <span>Frete individual deste item: <strong className="font-mono">R$ {minDeliveryFee.toFixed(2).replace('.', ',')} a R$ {maxDeliveryFee.toFixed(2).replace('.', ',')}/un</strong> (varia por mercado)</span>
+                    <span>Frete = distância × 3,5: <strong className="font-mono">R$ {minDeliveryFee.toFixed(2).replace('.', ',')} ~ R$ {maxDeliveryFee.toFixed(2).replace('.', ',')}/un</strong> (varia por mercado)</span>
                   </div>
 
                   {/* Price Matrix Comparison by Supermarket */}
@@ -235,7 +235,7 @@ export default function ProductCatalog({
                                 R$ {price.toFixed(2).replace('.', ',')}
                               </span>
                               <span className="text-[9px] font-mono text-amber-700">
-                                frete: R$ {storeFee.toFixed(2).replace('.', ',')}
+                                {getStoreDistance(store.id)} km → R$ {storeFee.toFixed(2).replace('.', ',')}
                               </span>
                             </div>
                             <motion.button
