@@ -175,58 +175,161 @@
   transition: none !important;
 }
 
-/* Modo Escuro */
-.a11y-dark-mode {
-  background-color: #1a1a2e !important;
-  color: #E0E0E0 !important;
+/* =========================================================
+   MODO ESCURO ELEGANTE (ESMERALDA OBSIDIAN)
+   ========================================================= */
+.a11y-dark-mode,
+html.a11y-dark-mode,
+body.a11y-dark-mode {
+  background-color: #0A1210 !important;
+  color: #E2E8F0 !important;
 }
 
-.a11y-dark-mode header,
+/* Backgrounds da página, header e seções */
+.a11y-dark-mode .min-h-screen,
 .a11y-dark-mode main,
-.a11y-dark-mode footer,
 .a11y-dark-mode section {
-  background-color: #1a1a2e !important;
+  background-color: #0A1210 !important;
+  color: #E2E8F0 !important;
 }
 
-.a11y-dark-mode .bg-\[#FAF8F5\],
+/* Header Navbar */
+.a11y-dark-mode header > div:last-child {
+  background-color: rgba(10, 18, 16, 0.9) !important;
+  border-color: #1F332E !important;
+}
+
+/* Cards, Modais, Drawers e Paineis */
 .a11y-dark-mode .bg-white,
-.a11y-dark-mode .bg-\[#F4EFEA\] {
-  background-color: #16213e !important;
+.a11y-dark-mode .bg-\[\#FAF8F5\],
+.a11y-dark-mode .bg-\[\#FAF8F5\]\/85,
+.a11y-dark-mode .bg-\[\#F4EFEA\],
+.a11y-dark-mode .bg-\[\#F4EFEA\]\/70,
+.a11y-dark-mode .bg-\[\#F4EFEA\]\/80,
+.a11y-dark-mode .bg-\[\#F4EFEA\]\/60 {
+  background-color: #13221E !important;
+  color: #E2E8F0 !important;
 }
 
-.a11y-dark-mode .bg-white\/90,
-.a11y-dark-mode .bg-white\/85 {
-  background-color: rgba(22, 33, 62, 0.9) !important;
+/* Elementos aninhados, pills e inputs */
+.a11y-dark-mode .bg-\[\#FAF8F5\] input,
+.a11y-dark-mode .bg-white input,
+.a11y-dark-mode input,
+.a11y-dark-mode select,
+.a11y-dark-mode textarea {
+  background-color: #192D28 !important;
+  color: #FFFFFF !important;
+  border-color: #27443D !important;
+}
+
+.a11y-dark-mode input::placeholder {
+  color: #64748B !important;
+}
+
+/* Textos principais e subtítulos */
+.a11y-dark-mode h1,
+.a11y-dark-mode h2,
+.a11y-dark-mode h3,
+.a11y-dark-mode h4,
+.a11y-dark-mode .font-display {
+  color: #F8FAFC !important;
 }
 
 .a11y-dark-mode .text-stone-900,
 .a11y-dark-mode .text-stone-800,
 .a11y-dark-mode .text-stone-700 {
-  color: #E0E0E0 !important;
+  color: #E2E8F0 !important;
 }
 
 .a11y-dark-mode .text-stone-600,
 .a11y-dark-mode .text-stone-500,
 .a11y-dark-mode .text-stone-400 {
-  color: #A0A0A0 !important;
+  color: #94A3B8 !important;
 }
 
-.a11y-dark-mode .border-\[#E8E2D5\],
-.a11y-dark-mode .border-\[#E8E2D5\]\/80 {
-  border-color: #2a2a4a !important;
+/* Bordas Gerais */
+.a11y-dark-mode .border-\[\#E8E2D5\],
+.a11y-dark-mode .border-\[\#E8E2D5\]\/80,
+.a11y-dark-mode .border-\[\#E8E2D5\]\/70,
+.a11y-dark-mode .border-\[\#E8E2D5\]\/60,
+.a11y-dark-mode .border-\[\#F0ECE4\] {
+  border-color: #203630 !important;
 }
 
-.a11y-dark-mode input {
-  background-color: #16213e !important;
-  color: #E0E0E0 !important;
-  border-color: #2a2a4a !important;
+/* Marquee bar no modo escuro */
+.a11y-dark-mode .animate-marquee .text-stone-800 {
+  color: #CBD5E1 !important;
 }
 
+/* Tabelas e Linhas de Comparador */
+.a11y-dark-mode thead tr {
+  background-color: #101B18 !important;
+}
+
+.a11y-dark-mode thead th {
+  color: #94A3B8 !important;
+}
+
+.a11y-dark-mode tbody tr {
+  border-color: #203630 !important;
+}
+
+.a11y-dark-mode tbody tr:hover {
+  background-color: #172924 !important;
+}
+
+/* Badges e Cards de Frete (Âmbar) adaptados para fundo escuro */
+.a11y-dark-mode .bg-amber-50,
+.a11y-dark-mode .bg-amber-50\/80,
+.a11y-dark-mode .bg-amber-50\/70 {
+  background-color: #291E0C !important;
+  border-color: #573F12 !important;
+}
+
+.a11y-dark-mode .text-amber-900,
+.a11y-dark-mode .text-amber-950,
+.a11y-dark-mode .text-amber-800 {
+  color: #FDE68A !important;
+}
+
+/* Badges Esmeralda adaptados */
+.a11y-dark-mode .bg-emerald-50,
+.a11y-dark-mode .bg-emerald-50\/70,
+.a11y-dark-mode .bg-emerald-50\/80,
+.a11y-dark-mode .bg-emerald-100\/70 {
+  background-color: #0E2922 !important;
+  border-color: #1A5344 !important;
+}
+
+.a11y-dark-mode .text-emerald-900,
+.a11y-dark-mode .text-emerald-950,
+.a11y-dark-mode .text-emerald-800 {
+  color: #6EE7B7 !important;
+}
+
+/* Botões brancos secundários */
+.a11y-dark-mode button.bg-white,
+.a11y-dark-mode button.bg-\[\#FAF8F5\] {
+  background-color: #1A2E28 !important;
+  color: #E2E8F0 !important;
+  border-color: #27443D !important;
+}
+
+.a11y-dark-mode button.bg-white:hover,
+.a11y-dark-mode button.bg-\[\#FAF8F5\]:hover {
+  background-color: #223D35 !important;
+}
+
+/* Scrollbars no tema escuro */
 .a11y-dark-mode ::-webkit-scrollbar-track {
-  background: #1a1a2e;
+  background: #0A1210;
 }
 
 .a11y-dark-mode ::-webkit-scrollbar-thumb {
-  background: #2a2a4a;
-  border-color: #1a1a2e;
+  background: #27443D;
+  border-color: #0A1210;
+}
+
+.a11y-dark-mode ::-webkit-scrollbar-thumb:hover {
+  background: #3B6158;
 }

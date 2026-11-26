@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Header from './components/Header';
 import LocationModal from './components/LocationModal';
 import SupermarketList from './components/SupermarketList';
@@ -50,6 +50,17 @@ export default function App() {
       [key]: !prev[key],
     }));
   };
+
+  // Sync dark mode class directly with html/body for seamless background and scrollbars
+  useEffect(() => {
+    if (accessibilitySettings.darkMode) {
+      document.documentElement.classList.add('a11y-dark-mode');
+      document.body.classList.add('a11y-dark-mode');
+    } else {
+      document.documentElement.classList.remove('a11y-dark-mode');
+      document.body.classList.remove('a11y-dark-mode');
+    }
+  }, [accessibilitySettings.darkMode]);
 
   // Build CSS classes based on accessibility settings
   const accessibilityClasses = [
