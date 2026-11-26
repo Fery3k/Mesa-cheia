@@ -1,7 +1,7 @@
 import React from 'react';
 import { ShoppingBag, MapPin, Search, Sparkles, Store, Users, Scale, ArrowRight, Compass } from 'lucide-react';
 import { motion } from 'framer-motion';
-import brandLogo from '../assets/logo.jpg';
+import brandLogo from '../assets/logo.png';
 
 export default function Header({
   activeTab,
@@ -62,8 +62,8 @@ export default function Header({
               className="flex items-center gap-3 cursor-pointer group shrink-0"
             >
               <div className="relative">
-                <div className="w-12 h-12 rounded-2xl overflow-hidden shadow-lg shadow-emerald-950/25 group-hover:scale-105 transition-all duration-300 border border-emerald-600/40 bg-black flex items-center justify-center p-0.5">
-                  <img src={brandLogo} alt="Mesa Cheia Mascote" className="w-full h-full object-contain" />
+                <div className="w-12 h-12 rounded-2xl overflow-hidden shadow-lg shadow-emerald-950/15 group-hover:scale-105 transition-all duration-300 border border-emerald-600/30 bg-emerald-500/10 flex items-center justify-center p-0.5">
+                  <img src={brandLogo} alt="Mesa Cheia Mascote" className="w-full h-full object-contain drop-shadow" />
                 </div>
                 <div className="absolute -bottom-1 -right-1 w-4 h-4 rounded-full bg-amber-500 border-2 border-white flex items-center justify-center text-[8px] font-bold text-stone-900 shadow-sm">
                   ✓

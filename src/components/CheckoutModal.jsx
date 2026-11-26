@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import brandLogo from '../assets/logo.jpg';
+import brandLogo from '../assets/logo.png';
 import {
   X,
   ShieldCheck,
@@ -197,8 +197,8 @@ export default function CheckoutModal({
           {/* Top Bar Header */}
           <div className="bg-[#0B201A] px-6 py-5 text-white flex items-center justify-between border-b border-emerald-950">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-2xl overflow-hidden border border-emerald-600/40 bg-black shrink-0 shadow-sm p-0.5 flex items-center justify-center">
-                <img src={brandLogo} alt="Mesa Cheia Mascote" className="w-full h-full object-contain" />
+              <div className="w-10 h-10 rounded-2xl overflow-hidden border border-emerald-600/30 bg-emerald-500/15 shrink-0 shadow-sm p-0.5 flex items-center justify-center">
+                <img src={brandLogo} alt="Mesa Cheia Mascote" className="w-full h-full object-contain drop-shadow" />
               </div>
               <div>
                 <div className="flex items-center gap-2">
