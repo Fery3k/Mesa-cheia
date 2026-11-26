@@ -145,7 +145,7 @@ export default function CartDrawer({
                 ) : (
                   <>
                     {/* CRITICAL DELIVERY FEE HIGHLIGHT CARD */}
-                    <div className="bg-gradient-to-br from-amber-50 to-orange-50/70 p-5 rounded-3xl border border-amber-200/80 shadow-sm">
+                    <div className="delivery-fee-card bg-amber-50/90 p-5 rounded-3xl border border-amber-200/80 shadow-sm">
                       <div className="flex items-center gap-2 mb-2 text-amber-900 font-bold text-xs uppercase tracking-wider font-mono">
                         <Truck className="w-4 h-4 text-amber-600" />
                         <span>Frete = Distância (km) × 3,5 por Item:</span>
@@ -154,7 +154,7 @@ export default function CartDrawer({
                         O frete de cada mercado é calculado pela distância (km) × 3,5, multiplicado pela quantidade no carrinho:
                       </p>
 
-                      <div className="space-y-1.5 bg-white/90 p-3 rounded-2xl border border-amber-200/60 text-[11px] font-mono">
+                      <div className="delivery-fee-breakdown space-y-1.5 bg-white/90 p-3 rounded-2xl border border-amber-200/60 text-[11px] font-mono">
                         {cartItems.map((item, idx) => {
                           const fee = getProductDeliveryFee(item.product, item.store.id);
                           const totalItemFee = fee * item.quantity;

@@ -77,9 +77,9 @@
   transform: translateY(-4px);
 }
 
-/* ============================
+/* =========================================================
    ACCESSIBILITY MODES
-   ============================ */
+   ========================================================= */
 
 /* Foco Visível para Navegação por Teclado e Leitores de Tela (TalkBack/VoiceOver) */
 *:focus-visible {
@@ -176,160 +176,273 @@
 }
 
 /* =========================================================
-   MODO ESCURO ELEGANTE (ESMERALDA OBSIDIAN)
+   MODO ESCURO DE ALTO CONTRASTE (ESMERALDA OBSIDIAN)
    ========================================================= */
-.a11y-dark-mode,
-html.a11y-dark-mode,
-body.a11y-dark-mode {
-  background-color: #0A1210 !important;
-  color: #E2E8F0 !important;
-}
 
-/* Backgrounds da página, header e seções */
+/* Fundo Geral da Página */
+html.a11y-dark-mode,
+body.a11y-dark-mode,
+.a11y-dark-mode,
 .a11y-dark-mode .min-h-screen,
 .a11y-dark-mode main,
 .a11y-dark-mode section {
-  background-color: #0A1210 !important;
-  color: #E2E8F0 !important;
+  background-color: #0B1412 !important;
+  color: #F1F5F9 !important;
 }
 
-/* Header Navbar */
+/* 1. HEADER (Corrigir Location Pill, Search Input e Tabs) */
 .a11y-dark-mode header > div:last-child {
-  background-color: rgba(10, 18, 16, 0.9) !important;
-  border-color: #1F332E !important;
+  background-color: rgba(11, 20, 18, 0.95) !important;
+  border-bottom-color: #1E332D !important;
 }
 
-/* Cards, Modais, Drawers e Paineis */
-.a11y-dark-mode .bg-white,
-.a11y-dark-mode .bg-\[\#FAF8F5\],
-.a11y-dark-mode .bg-\[\#FAF8F5\]\/85,
-.a11y-dark-mode .bg-\[\#F4EFEA\],
-.a11y-dark-mode .bg-\[\#F4EFEA\]\/70,
-.a11y-dark-mode .bg-\[\#F4EFEA\]\/80,
-.a11y-dark-mode .bg-\[\#F4EFEA\]\/60 {
-  background-color: #13221E !important;
-  color: #E2E8F0 !important;
+/* Location Selector Pill */
+.a11y-dark-mode header button[data-cursor="Mudar CEP"],
+.a11y-dark-mode header .bg-white\/90 {
+  background-color: #142420 !important;
+  border-color: #243D36 !important;
 }
 
-/* Elementos aninhados, pills e inputs */
-.a11y-dark-mode .bg-\[\#FAF8F5\] input,
-.a11y-dark-mode .bg-white input,
-.a11y-dark-mode input,
-.a11y-dark-mode select,
-.a11y-dark-mode textarea {
-  background-color: #192D28 !important;
+.a11y-dark-mode header button[data-cursor="Mudar CEP"]:hover {
+  background-color: #1B302B !important;
+  border-color: #10B981 !important;
+}
+
+.a11y-dark-mode header button[data-cursor="Mudar CEP"] span:first-child {
+  color: #34D399 !important;
+}
+
+.a11y-dark-mode header button[data-cursor="Mudar CEP"] span:last-child {
   color: #FFFFFF !important;
-  border-color: #27443D !important;
 }
 
-.a11y-dark-mode input::placeholder {
-  color: #64748B !important;
+.a11y-dark-mode header button[data-cursor="Mudar CEP"] > div:first-child {
+  background-color: #0E352B !important;
+  color: #34D399 !important;
 }
 
-/* Textos principais e subtítulos */
-.a11y-dark-mode h1,
-.a11y-dark-mode h2,
-.a11y-dark-mode h3,
-.a11y-dark-mode h4,
-.a11y-dark-mode .font-display {
-  color: #F8FAFC !important;
+/* Search Bar no Header */
+.a11y-dark-mode header input[type="text"] {
+  background-color: #142420 !important;
+  color: #FFFFFF !important;
+  border-color: #243D36 !important;
 }
 
-.a11y-dark-mode .text-stone-900,
-.a11y-dark-mode .text-stone-800,
-.a11y-dark-mode .text-stone-700 {
-  color: #E2E8F0 !important;
-}
-
-.a11y-dark-mode .text-stone-600,
-.a11y-dark-mode .text-stone-500,
-.a11y-dark-mode .text-stone-400 {
+.a11y-dark-mode header input[type="text"]::placeholder {
   color: #94A3B8 !important;
 }
 
-/* Bordas Gerais */
+/* Nav Tabs Dock */
+.a11y-dark-mode header nav {
+  background-color: #101E1A !important;
+  border-color: #243D36 !important;
+}
+
+.a11y-dark-mode header nav button {
+  color: #CBD5E1 !important;
+}
+
+.a11y-dark-mode header nav button:hover {
+  color: #FFFFFF !important;
+}
+
+.a11y-dark-mode header nav button .text-stone-900 {
+  color: #FFFFFF !important;
+}
+
+.a11y-dark-mode header nav button .bg-white {
+  background-color: #1D352F !important;
+  border-color: #2E5249 !important;
+}
+
+/* 2. CARDS, MODAIS E DRAWERS (Superfície Nível 1) */
+.a11y-dark-mode .bg-white,
+.a11y-dark-mode .bg-\[\#FAF8F5\],
+.a11y-dark-mode .bg-\[\#F4EFEA\] {
+  background-color: #13221E !important;
+  color: #F1F5F9 !important;
+}
+
 .a11y-dark-mode .border-\[\#E8E2D5\],
 .a11y-dark-mode .border-\[\#E8E2D5\]\/80,
 .a11y-dark-mode .border-\[\#E8E2D5\]\/70,
 .a11y-dark-mode .border-\[\#E8E2D5\]\/60,
 .a11y-dark-mode .border-\[\#F0ECE4\] {
-  border-color: #203630 !important;
+  border-color: #213932 !important;
 }
 
-/* Marquee bar no modo escuro */
-.a11y-dark-mode .animate-marquee .text-stone-800 {
-  color: #CBD5E1 !important;
+/* 3. CART DRAWER (Corrigir o Card Amarelo e Itens) */
+.a11y-dark-mode .delivery-fee-card {
+  background-image: none !important;
+  background-color: #241906 !important;
+  border-color: #5C3E10 !important;
 }
 
-/* Tabelas e Linhas de Comparador */
-.a11y-dark-mode thead tr {
-  background-color: #101B18 !important;
-}
-
-.a11y-dark-mode thead th {
-  color: #94A3B8 !important;
-}
-
-.a11y-dark-mode tbody tr {
-  border-color: #203630 !important;
-}
-
-.a11y-dark-mode tbody tr:hover {
-  background-color: #172924 !important;
-}
-
-/* Badges e Cards de Frete (Âmbar) adaptados para fundo escuro */
-.a11y-dark-mode .bg-amber-50,
-.a11y-dark-mode .bg-amber-50\/80,
-.a11y-dark-mode .bg-amber-50\/70 {
-  background-color: #291E0C !important;
-  border-color: #573F12 !important;
-}
-
-.a11y-dark-mode .text-amber-900,
-.a11y-dark-mode .text-amber-950,
-.a11y-dark-mode .text-amber-800 {
+.a11y-dark-mode .delivery-fee-card div,
+.a11y-dark-mode .delivery-fee-card p,
+.a11y-dark-mode .delivery-fee-card span {
   color: #FDE68A !important;
 }
 
-/* Badges Esmeralda adaptados */
+.a11y-dark-mode .delivery-fee-breakdown {
+  background-color: #171004 !important;
+  border-color: #4A320A !important;
+}
+
+.a11y-dark-mode .delivery-fee-breakdown span {
+  color: #FEF3C7 !important;
+}
+
+.a11y-dark-mode .delivery-fee-breakdown .text-amber-700 {
+  color: #FBBF24 !important;
+}
+
+/* Anular gradiente claro do card de frete */
+.a11y-dark-mode [class*="from-amber-50"],
+.a11y-dark-mode .bg-gradient-to-br.from-amber-50 {
+  background-image: none !important;
+  background-color: #261B07 !important;
+  border-color: #614413 !important;
+}
+
+/* Títulos e avisos dentro do card de frete */
+.a11y-dark-mode [class*="from-amber-50"] p,
+.a11y-dark-mode [class*="from-amber-50"] span,
+.a11y-dark-mode .bg-amber-50,
+.a11y-dark-mode .bg-amber-50\/80 {
+  background-image: none !important;
+  background-color: #261B07 !important;
+  border-color: #614413 !important;
+  color: #FDE68A !important;
+}
+
+/* Caixa branca interna do resumo de frete */
+.a11y-dark-mode [class*="from-amber-50"] .bg-white\/90,
+.a11y-dark-mode [class*="from-amber-50"] .bg-white {
+  background-color: #181205 !important;
+  border-color: #4A330B !important;
+}
+
+.a11y-dark-mode [class*="from-amber-50"] .bg-white\/90 div,
+.a11y-dark-mode [class*="from-amber-50"] .bg-white\/90 span {
+  color: #FEF3C7 !important;
+}
+
+.a11y-dark-mode [class*="from-amber-50"] .text-amber-700,
+.a11y-dark-mode [class*="from-amber-50"] .text-amber-800 {
+  color: #FBBF24 !important;
+}
+
+/* Lista de lojas e itens no carrinho */
+.a11y-dark-mode .bg-stone-100 {
+  background-color: #1E332C !important;
+  color: #A7F3D0 !important;
+  border: 1px solid #28473E !important;
+}
+
+/* Botões de quantidade + e - */
+.a11y-dark-mode .w-8.h-8.rounded-xl.bg-white,
+.a11y-dark-mode .w-6.h-6.rounded-lg.bg-white {
+  background-color: #1E332C !important;
+  color: #FFFFFF !important;
+  border: 1px solid #28473E !important;
+}
+
+.a11y-dark-mode .w-8.h-8.rounded-xl.bg-white:hover,
+.a11y-dark-mode .w-6.h-6.rounded-lg.bg-white:hover {
+  background-color: #28473E !important;
+}
+
+/* Rodapé do Carrinho com Totais */
+.a11y-dark-mode div:has(> .font-display:contains("Total")) {
+  background-color: #0F1B17 !important;
+  border-top-color: #213932 !important;
+}
+
+/* 4. TEXTOS E TIPOGRAFIA NO MODO ESCURO */
+.a11y-dark-mode h1,
+.a11y-dark-mode h2,
+.a11y-dark-mode h3,
+.a11y-dark-mode h4,
+.a11y-dark-mode .font-display {
+  color: #FFFFFF !important;
+}
+
+.a11y-dark-mode .text-stone-900,
+.a11y-dark-mode .text-stone-800 {
+  color: #F8FAFC !important;
+}
+
+.a11y-dark-mode .text-stone-700 {
+  color: #E2E8F0 !important;
+}
+
+.a11y-dark-mode .text-stone-600,
+.a11y-dark-mode .text-stone-500 {
+  color: #94A3B8 !important;
+}
+
+.a11y-dark-mode .text-stone-400 {
+  color: #64748B !important;
+}
+
+/* Destaques em Esmeralda */
+.a11y-dark-mode .text-emerald-700,
+.a11y-dark-mode .text-emerald-800,
+.a11y-dark-mode .text-emerald-900 {
+  color: #34D399 !important;
+}
+
 .a11y-dark-mode .bg-emerald-50,
-.a11y-dark-mode .bg-emerald-50\/70,
 .a11y-dark-mode .bg-emerald-50\/80,
 .a11y-dark-mode .bg-emerald-100\/70 {
   background-color: #0E2922 !important;
-  border-color: #1A5344 !important;
+  border-color: #1E5C4B !important;
+  color: #A7F3D0 !important;
 }
 
-.a11y-dark-mode .text-emerald-900,
-.a11y-dark-mode .text-emerald-950,
-.a11y-dark-mode .text-emerald-800 {
-  color: #6EE7B7 !important;
+/* 5. TABELAS (COMPARADOR DE PREÇOS) */
+.a11y-dark-mode table thead tr {
+  background-color: #0E1A16 !important;
+  border-bottom-color: #213932 !important;
 }
 
-/* Botões brancos secundários */
-.a11y-dark-mode button.bg-white,
-.a11y-dark-mode button.bg-\[\#FAF8F5\] {
-  background-color: #1A2E28 !important;
-  color: #E2E8F0 !important;
-  border-color: #27443D !important;
+.a11y-dark-mode table thead th {
+  color: #94A3B8 !important;
 }
 
-.a11y-dark-mode button.bg-white:hover,
-.a11y-dark-mode button.bg-\[\#FAF8F5\]:hover {
-  background-color: #223D35 !important;
+.a11y-dark-mode table tbody tr {
+  border-bottom-color: #1A2E28 !important;
 }
 
-/* Scrollbars no tema escuro */
+.a11y-dark-mode table tbody tr:hover {
+  background-color: #162722 !important;
+}
+
+/* 6. INPUTS E FORMULÁRIOS */
+.a11y-dark-mode input,
+.a11y-dark-mode select,
+.a11y-dark-mode textarea {
+  background-color: #172722 !important;
+  color: #FFFFFF !important;
+  border-color: #28443D !important;
+}
+
+.a11y-dark-mode input:focus,
+.a11y-dark-mode select:focus {
+  border-color: #10B981 !important;
+}
+
+/* 7. SCROLLBARS */
 .a11y-dark-mode ::-webkit-scrollbar-track {
-  background: #0A1210;
+  background: #0B1412;
 }
 
 .a11y-dark-mode ::-webkit-scrollbar-thumb {
-  background: #27443D;
-  border-color: #0A1210;
+  background: #233C35;
+  border-color: #0B1412;
 }
 
 .a11y-dark-mode ::-webkit-scrollbar-thumb:hover {
-  background: #3B6158;
+  background: #34584E;
 }
