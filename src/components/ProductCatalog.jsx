@@ -242,7 +242,8 @@ export default function ProductCatalog({
                               whileTap={{ scale: 0.85 }}
                               onClick={() => handleAddWithFeedback(product, store)}
                               data-cursor="+1"
-                              className={`p-1 rounded-lg transition-all ${
+                              aria-label={`Adicionar ${product.name} do ${store.name}`}
+                              className={`p-2 rounded-xl transition-all min-w-[34px] min-h-[34px] flex items-center justify-center ${
                                 isRecentlyAdded
                                   ? 'bg-emerald-600 text-white'
                                   : qty > 0

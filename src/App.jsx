@@ -34,11 +34,17 @@ export default function App() {
     customCursor: false,
     highContrast: false,
     largerText: false,
+    readableFont: false,
+    largeTouchTargets: false,
+    hapticFeedback: true,
     reducedMotion: false,
     darkMode: false,
   });
 
   const handleToggleAccessibility = (key) => {
+    if (accessibilitySettings.hapticFeedback && navigator.vibrate) {
+      navigator.vibrate(30);
+    }
     setAccessibilitySettings((prev) => ({
       ...prev,
       [key]: !prev[key],
@@ -49,6 +55,8 @@ export default function App() {
   const accessibilityClasses = [
     accessibilitySettings.highContrast ? 'a11y-high-contrast' : '',
     accessibilitySettings.largerText ? 'a11y-larger-text' : '',
+    accessibilitySettings.readableFont ? 'a11y-readable-font' : '',
+    accessibilitySettings.largeTouchTargets ? 'a11y-large-touch-targets' : '',
     accessibilitySettings.reducedMotion ? 'a11y-reduced-motion' : '',
     accessibilitySettings.darkMode ? 'a11y-dark-mode' : '',
   ]
@@ -81,6 +89,9 @@ export default function App() {
 
   // Cart Handlers
   const handleAddToCart = (product, store) => {
+    if (accessibilitySettings.hapticFeedback && navigator.vibrate) {
+      navigator.vibrate(25);
+    }
     setCartItems((prevItems) => {
       const existingIndex = prevItems.findIndex(
         (item) => item.product.id === product.id && item.store.id === store.id

@@ -215,18 +215,20 @@ export default function CartDrawer({
                                   <div className="flex items-center gap-1.5 shrink-0 bg-[#FAF8F5] p-1 rounded-xl border border-[#E8E2D5]">
                                     <button
                                       onClick={() => onUpdateQuantity(item.product.id, store.id, item.quantity - 1)}
-                                      className="w-6 h-6 rounded-lg bg-white hover:bg-stone-100 flex items-center justify-center text-stone-600 transition-colors shadow-xs"
+                                      aria-label={`Diminuir quantidade de ${item.product.name}`}
+                                      className="w-8 h-8 rounded-xl bg-white hover:bg-stone-100 flex items-center justify-center text-stone-600 transition-colors shadow-xs active:bg-stone-200"
                                     >
-                                      <Minus className="w-3 h-3" />
+                                      <Minus className="w-3.5 h-3.5" />
                                     </button>
-                                    <span className="font-mono font-bold text-xs w-5 text-center text-stone-900">
+                                    <span className="font-mono font-bold text-xs w-6 text-center text-stone-900">
                                       {item.quantity}
                                     </span>
                                     <button
                                       onClick={() => onUpdateQuantity(item.product.id, store.id, item.quantity + 1)}
-                                      className="w-6 h-6 rounded-lg bg-white hover:bg-stone-100 flex items-center justify-center text-stone-600 transition-colors shadow-xs"
+                                      aria-label={`Aumentar quantidade de ${item.product.name}`}
+                                      className="w-8 h-8 rounded-xl bg-white hover:bg-stone-100 flex items-center justify-center text-stone-600 transition-colors shadow-xs active:bg-stone-200"
                                     >
-                                      <Plus className="w-3 h-3" />
+                                      <Plus className="w-3.5 h-3.5" />
                                     </button>
                                   </div>
                                 </div>

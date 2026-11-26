@@ -81,6 +81,38 @@
    ACCESSIBILITY MODES
    ============================ */
 
+/* Foco Visível para Navegação por Teclado e Leitores de Tela (TalkBack/VoiceOver) */
+*:focus-visible {
+  outline: 3px solid #047857 !important;
+  outline-offset: 2px !important;
+}
+
+/* Alvos de Toque Maiores para Mobile (WCAG 2.1 - 48px) */
+.a11y-large-touch-targets button,
+.a11y-large-touch-targets a,
+.a11y-large-touch-targets input,
+.a11y-large-touch-targets select,
+.a11y-large-touch-targets [role="button"] {
+  min-height: 48px !important;
+  min-width: 48px !important;
+}
+
+/* Modo Leitura / Dislexia com Espaçamento Ampliado */
+.a11y-readable-font {
+  letter-spacing: 0.04em !important;
+  word-spacing: 0.08em !important;
+  line-height: 1.8 !important;
+}
+
+.a11y-readable-font p,
+.a11y-readable-font span,
+.a11y-readable-font h1,
+.a11y-readable-font h2,
+.a11y-readable-font h3,
+.a11y-readable-font button {
+  letter-spacing: inherit !important;
+}
+
 /* Alto Contraste */
 .a11y-high-contrast {
   --bg-primary: #FFFFFF;
