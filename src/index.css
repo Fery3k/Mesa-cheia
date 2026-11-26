@@ -439,39 +439,78 @@ body.a11y-dark-mode,
   color: #34D399 !important;
 }
 
-/* Caixa e Botão do Pix no Modo Escuro */
-.a11y-dark-mode .checkout-pix-box,
-.a11y-dark-mode .checkout-pix-box.bg-emerald-50\/70 {
-  background-color: #0E221C !important;
-  border-color: #1E4E40 !important;
+/* Caixa e Botão do Pix no Modo Claro e Escuro */
+.checkout-pix-box {
+  background-color: #ECFDF5;
+  border-color: #A7F3D0;
 }
 
-.a11y-dark-mode .checkout-pix-icon {
-  background-color: #15332A !important;
+.checkout-pix-icon {
+  background-color: #FFFFFF;
+  border-color: #A7F3D0;
+}
+
+.checkout-pix-title {
+  color: #064E3B;
+}
+
+.checkout-pix-desc {
+  color: #475569;
+}
+
+.checkout-pix-discount {
+  color: #047857;
+}
+
+.checkout-pix-copy-btn {
+  background-color: #FFFFFF;
+  color: #064E3B;
+  border-color: #A7F3D0;
+}
+
+.checkout-pix-copy-btn:hover {
+  background-color: #D1FAE5;
+}
+
+/* Caixa e Botão do Pix no Modo Escuro */
+.a11y-dark-mode .checkout-pix-box,
+div.a11y-dark-mode .checkout-pix-box {
+  background-color: #0B241D !important;
+  border-color: #1C4A3C !important;
+}
+
+.a11y-dark-mode .checkout-pix-icon,
+div.a11y-dark-mode .checkout-pix-icon {
+  background-color: #14352A !important;
   border-color: #215A4A !important;
 }
 
 .a11y-dark-mode .checkout-pix-title,
+div.a11y-dark-mode .checkout-pix-title,
 .a11y-dark-mode .checkout-pix-title span {
-  color: #F8FAFC !important;
+  color: #FFFFFF !important;
 }
 
-.a11y-dark-mode .checkout-pix-desc {
+.a11y-dark-mode .checkout-pix-desc,
+div.a11y-dark-mode .checkout-pix-desc {
   color: #CBD5E1 !important;
 }
 
-.a11y-dark-mode .checkout-pix-discount {
+.a11y-dark-mode .checkout-pix-discount,
+div.a11y-dark-mode .checkout-pix-discount {
   color: #34D399 !important;
 }
 
-.a11y-dark-mode .checkout-pix-copy-btn {
-  background-color: #17362D !important;
+.a11y-dark-mode .checkout-pix-copy-btn,
+div.a11y-dark-mode .checkout-pix-copy-btn {
+  background-color: #153A2E !important;
   color: #6EE7B7 !important;
-  border-color: #235A4B !important;
+  border-color: #245E4D !important;
 }
 
-.a11y-dark-mode .checkout-pix-copy-btn:hover {
-  background-color: #1E4439 !important;
+.a11y-dark-mode .checkout-pix-copy-btn:hover,
+div.a11y-dark-mode .checkout-pix-copy-btn:hover {
+  background-color: #1E4E3E !important;
   color: #FFFFFF !important;
 }
 
